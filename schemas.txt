@@ -1,0 +1,47 @@
+var restauranteSchema = new Schema({
+    id: Number,
+    idItem: [Number],
+    idMesa: [Number],
+    nome: String,
+    descricao: String,
+    categoria: String,
+    cidade: String,
+    estado: String,
+    bairro: String,
+    rua: String,
+    cep: String,
+    numero: String,
+    cnpj: String,
+    aberto: Boolean,
+    horarioAbertura: Date(),
+    horarioFechamento: Date()
+});
+
+var reservaSchema = new Schema({
+    idReserva: Number,
+    idRestaurante: Number,
+    idCliente: Number,
+    idPedido: [Number],
+    idLugar: [Number],
+    dataReserva: Date(),
+    ativa: Boolean,
+    pagamentoApp: Boolean
+});
+
+var pedidoSchema = new Schema({
+    idPedido: Number,
+    idReserva: Number,
+    horarioPedido: Date(),
+    idItem: [Number],
+    status: String
+});
+
+var usuarioSchema = new Schema({
+    idUsuario: Number,
+    name: String,
+    login: String,
+    senha: String, 
+    sexo: Boolean,
+    endereco: String,
+    cep: String
+});
