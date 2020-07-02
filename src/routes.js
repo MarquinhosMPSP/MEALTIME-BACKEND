@@ -17,6 +17,7 @@ routes
     .post('/projects', ProjectController.create)
     // Items
     .get('/item', ItemController.index)
+    .get('/mesa', MesaController.index)
 
 
 module.exports = routes
