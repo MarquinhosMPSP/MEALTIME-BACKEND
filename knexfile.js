@@ -5,11 +5,7 @@ const environment = require("./src/environments/environment");
 module.exports = {
   development: {
     client: 'pg',
-    connection: {
-      database: "mealtime_db",
-      user: environment.db_user,
-      password: environment.password
-    },
+    connection: process.env.DATABASE_URL || environment.database,
     migrations: {
       tableName: 'knex_migrations',
       directory: `${__dirname}/src/database/migrations`

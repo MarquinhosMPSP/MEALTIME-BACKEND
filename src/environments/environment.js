@@ -1,4 +1,7 @@
 module.exports = {
-    "db_user": "daniel",
-    "password": ""
+    database: {
+        database: "mealtime_db",
+        user: "daniel",
+        password: ""
+    }
 }
