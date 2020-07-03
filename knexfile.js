@@ -1,12 +1,14 @@
 // Update with your config settings.
 
+const environment = require("./src/environments/environment");
+
 module.exports = {
   development: {
     client: 'pg',
     connection: {
       database: "mealtime_db",
-      user: "postgres",
-      password: "admin"
+      user: environment.db_user,
+      password: environment.password
     },
     migrations: {
       tableName: 'knex_migrations',

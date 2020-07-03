@@ -1,23 +1,25 @@
 const express = require('express')
 const routes = express.Router()
 
-const UserController = require('./controllers/UserController')
-const ProjectController = require('./controllers/ProjectController')
+const UsuarioController = require('./controllers/UsuarioController')
 const ItemController = require('./controllers/ItemController')
 const MesaController = require('./controllers/MesaController')
 
 routes
-    // Users
-    .get('/users', UserController.index)
-    .post('/users', UserController.create)
-    .put('/users/:id', UserController.update)
-    .delete('/users/:id', UserController.delete)
-    // Projects
-    .get('/projects', ProjectController.index)
-    .post('/projects', ProjectController.create)
-    // Items
-    .get('/item', ItemController.index)
-    .get('/mesa', MesaController.index)
-
+    // Usuario
+    .get('/usuarios', UsuarioController.index)
+    .post('/usuarios', UsuarioController.create)
+    .put('/usuarios/:idUsuario', UsuarioController.update)
+    .delete('/usuarios/:idUsuario', UsuarioController.delete)
+    // Item
+    .get('/itens', ItemController.index)
+    .post('/itens', ItemController.create)
+    .put('/itens/:idItem', ItemController.update)
+    .delete('/itens/:idItem', ItemController.delete)
+    // Mesa
+    .get('/mesas', MesaController.index)
+    .post('/mesas', MesaController.create)
+    .put('/mesas/:idMesa', MesaController.update)
+    .delete('/mesas/:idMesa', MesaController.delete)
 
 module.exports = routes

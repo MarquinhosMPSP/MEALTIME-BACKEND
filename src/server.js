@@ -1,11 +1,12 @@
 const express = require('express')
 const routes = require('./routes')
 
+const PORT = process.env.PORT || 3333
+
 const app = express()
 
 app.use(express.json())
 app.use(routes)
-
 
 // notFound
 app.use((req, res, next) => {
@@ -21,4 +22,4 @@ app.use((error, req, res, next) => {
 })
 
 
-app.listen(3333, () =>  console.log('Server is running'))
+app.listen(PORT, () =>  console.log('Server is running'))
