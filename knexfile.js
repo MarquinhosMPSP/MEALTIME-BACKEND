@@ -3,16 +3,14 @@
 const environment = require("./src/environments/environment");
 
 module.exports = {
-  development: {
-    client: 'pg',
-    connection: process.env.DATABASE_URL || environment.database,
-    migrations: {
-      tableName: 'knex_migrations',
-      directory: `${__dirname}/src/database/migrations`
-    },
-    seeds: {
-      directory: `${__dirname}/src/database/seeds`
-    }
+  client: 'pg',
+  connection: process.env.DATABASE_URL || environment.database,
+  migrations: {
+    tableName: 'knex_migrations',
+    directory: `${__dirname}/src/database/migrations`
+  },
+  seeds: {
+    directory: `${__dirname}/src/database/seeds`
   },
   onUpdateTrigger: table  => `
   CREATE TRIGGER ${table}_updated_at
