@@ -6,12 +6,40 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex('mesa').insert([
         {
-          nomeMesa: 'Mesa 1', quantidadeLugares: 4,
+          idRestaurante: 1,
+          nomeMesa: 'Mesa 1',
+          quantidadeLugares: 2,
           disponivel: true
         },
         {
-          nomeMesa: 'Mesa 2', quantidadeLugares: 4,
+          idRestaurante: 1,
+          nomeMesa: 'Mesa 2',
+          quantidadeLugares: 4,
           disponivel: true
+        },
+        {
+          idRestaurante: 1,
+          nomeMesa: 'Mesa 3',
+          quantidadeLugares: 4,
+          disponivel: true
+        },
+        {
+          idRestaurante: 2,
+          nomeMesa: 'Mesa 1',
+          quantidadeLugares: 4,
+          disponivel: true
+        },
+        {
+          idRestaurante: 2,
+          nomeMesa: 'Mesa 2',
+          quantidadeLugares: 4,
+          disponivel: true
+        },
+        {
+          idRestaurante: 1,
+          nomeMesa: 'Terraço 1',
+          quantidadeLugares: 6,
+          disponivel: false
         }
       ]);
     });

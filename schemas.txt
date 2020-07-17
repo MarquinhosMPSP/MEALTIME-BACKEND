@@ -1,8 +1,6 @@
 var restauranteSchema = new Schema({
-    id: Number,
-    idItem: [Number],
-    idMesa: [Number],
-    nome: String,
+    idRestaurante: Number,
+    nomeRestaurante: String,
     descricao: String,
     categoria: String,
     cidade: String,
@@ -13,35 +11,61 @@ var restauranteSchema = new Schema({
     numero: String,
     cnpj: String,
     aberto: Boolean,
-    horarioAbertura: Date(),
-    horarioFechamento: Date()
+    // horarioAbertura: Date(),
+    // horarioFechamento: Date()
+});
+
+// var mesaSchema = new Schema({
+//     idMesa: Number
+// });
+
+var cardapioSchema = new Schema({
+    idCardapio: Number,
+    idRestaurante: Number,
+    idItem: Number
+})
+
+var itemSchema = new Schema({
+    idItem: Number,
+    nome: String,
+    valor: Number,
+    descricao: String,
+    tempoPreparo: Number // DEFAULT: 20 ?
 });
 
 var reservaSchema = new Schema({
     idReserva: Number,
     idRestaurante: Number,
     idCliente: Number,
-    idPedido: [Number],
-    idLugar: [Number],
-    dataReserva: Date(),
+    idMesa: Number,
+    idComanda: Number,
     ativa: Boolean,
-    pagamentoApp: Boolean
+    pagamentoApp: Boolean,
+    dataReserva: Date(),
+});
+
+var comandaSchema = new Schema({
+    idComanda: Number,
+    // idRestaurante: Number,
+    idPedido: Number,
 });
 
 var pedidoSchema = new Schema({
     idPedido: Number,
-    idReserva: Number,
-    horarioPedido: Date(),
-    idItem: [Number],
+    // idComanda: Number,
+    idItem: Number,
+    dataPedido: Date,
     status: String
 });
 
+
 var usuarioSchema = new Schema({
     idUsuario: Number,
-    name: String,
+    nome: String,
     login: String,
     senha: String, 
     sexo: Boolean,
     endereco: String,
     cep: String
 });
+
