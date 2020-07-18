@@ -28,9 +28,11 @@ var cardapioSchema = new Schema({
 var itemSchema = new Schema({
     idItem: Number,
     nome: String,
-    valor: Number,
+    preco: Number,
     descricao: String,
-    tempoPreparo: Number // DEFAULT: 20 ?
+    disponivel: Boolean,
+    tempoPreparo: Number, // DEFAULT: 20 ?
+    pratoImgUrl: String
 });
 
 var reservaSchema = new Schema({
@@ -64,8 +66,8 @@ var usuarioSchema = new Schema({
     nome: String,
     login: String,
     senha: String, 
-    sexo: Boolean,
-    endereco: String,
-    cep: String
+    // sexo: Boolean,
+    // endereco: String,
+    // cep: String
 });
 

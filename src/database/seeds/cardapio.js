@@ -7,13 +7,13 @@ exports.seed = function(knex) {
       return knex('cardapio').insert([
         {
           idCardapio: 1,
-          idRestaurante: 1,
           idItem: 1,
+          idRestaurante: 1
         },
         {
           idCardapio: 1,
-          idRestaurante: 1,
           idItem: 2,
+          idRestaurante: 1
         },
       ]);
     });

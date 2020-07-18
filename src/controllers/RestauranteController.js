@@ -1,9 +1,10 @@
-const knex = require('knex')
+const db = require('../database')
+const { categorias } = require('../enums/categorias')
 
 module.exports = {
     async index(req, res, next) {
         try {
-            const restaurantes = await knex('restaurante')
+            const restaurantes = await db('restaurante')
             return res.json(restaurantes)
         } catch (error) {
             next(error)
@@ -11,11 +12,11 @@ module.exports = {
     },
     async create(req, res, next) {
         try {
-            const { idItem, idMesa, nomeRestaurante, descricao, categoria, cidade, estado, bairro, rua, cep, numero, cnpj, aberto, horarioAbertura, horarioFechamento } = req.body
+            const { nomeRestaurante, descricao, categoria, cnpj, endereco, numero, bairro, cep, cidade, estado, aberto } = req.body
 
-            await knex('restaurante')
+            await db('restaurante')
             .insert({
-                idItem, idMesa, nomeRestaurante, descricao, categoria, cidade, estado, bairro, rua, cep, numero, cnpj, aberto, horarioAbertura, horarioFechamento
+                nomeRestaurante, descricao, categoria, cnpj, endereco, numero, bairro, cep, cidade, estado, aberto
             })
 
             return res.status(201).send()
@@ -25,13 +26,13 @@ module.exports = {
     },
     async update(req, res, next) {
         try {
-            const { idItem, idMesa, nomeRestaurante, descricao, categoria, cidade, estado, bairro, rua, cep, numero, cnpj, aberto, horarioAbertura, horarioFechamento } = req.body
+            const { nomeRestaurante, descricao, categoria, cnpj, endereco, numero, bairro, cep, cidade, estado, aberto } = req.body
 
             const { idRestaurante } = req.params
 
-            await knex('restaurante')
+            await db('restaurante')
             .update({
-                idItem, idMesa, nomeRestaurante, descricao, categoria, cidade, estado, bairro, rua, cep, numero, cnpj, aberto, horarioAbertura, horarioFechamento
+                nomeRestaurante, descricao, categoria, cnpj, endereco, numero, bairro, cep, cidade, estado, aberto
             })
             .where({ idRestaurante })
 
@@ -44,7 +45,7 @@ module.exports = {
         try {
             const { idRestaurante } = req.params
 
-            await knex('restaurante')
+            await db('restaurante')
             .where({ idRestaurante })
             .del()
 
@@ -53,4 +54,23 @@ module.exports = {
             next(error)
         }
     },
+    async listByCategory(req, res, next) {
+        try {
+            let { categoria } = req.params
+
+            categoria = categoria ? categoria.toLowerCase() : ''
+
+            if (categoria in categorias) {
+                const restaurantes = await db('restaurante')
+                    .where(
+                        db.raw('LOWER("categoria") = ?', categoria)
+                    )
+                    .orderBy('nomeRestaurante')
+                return res.json(restaurantes)
+            }
+            return res.status(404).json({ message: 'categoria inválida!' })
+        } catch (error) {
+            next(error)
+        }
+    }
 }

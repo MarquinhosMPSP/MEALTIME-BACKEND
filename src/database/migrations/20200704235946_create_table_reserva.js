@@ -24,8 +24,8 @@ exports.up = async knex => knex.schema.createTable('reserva', table => {
     table.boolean('pagamentoApp').defaultTo(true)
         
     table.timestamp('dataReserva').defaultTo(knex.fn.now())
-    table.timestamp('dataCriacao').defaultTo(knex.fn.now())
-    table.timestamp('dataAtualizacao').defaultTo(knex.fn.now())
+    table.timestamp('dt_criacao').defaultTo(knex.fn.now())
+    table.timestamp('dt_atualizacao').defaultTo(knex.fn.now())
 }).then(() => knex.raw(onUpdateTrigger('reserva')))
 
 exports.down = async knex => knex.schema.dropTable('reserva')

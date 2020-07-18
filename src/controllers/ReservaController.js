@@ -3,7 +3,7 @@ import knex from 'knex'
 module.exports = {
     async index(req, res, next) {
         try {
-            const reservas = await knex('reserva')
+            const reservas = await db('reserva')
             return res.json(reservas)
         } catch (error) {
             next(error)
@@ -13,7 +13,7 @@ module.exports = {
         try {
             const { idReserva, idRestaurante, idCliente, idPedido, idLugar, dataReserva, ativa, pagamentoApp } = req.body
 
-            await knex('reserva')
+            await db('reserva')
             .insert({
                 idReserva, idRestaurante, idCliente, idPedido, idLugar, dataReserva, ativa, pagamentoApp
             })

@@ -1,9 +1,9 @@
-const knex = require('../database');
+const db = require('../database');
 
 module.exports = {
     async index(req, res, next) { 
         try {
-            const results = await knex('item')
+            const results = await db('item')
             return res.json(results)
         } catch (error) {
             next(error)
@@ -11,10 +11,10 @@ module.exports = {
     },
     async create(req, res, next) {
         try {
-            const { categoria, preco, nome, descricao, disponivel, tempoPreparo, pratoImagem } = req.body
+            const { nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl } = req.body
 
-            await knex('item').insert({
-                categoria, preco, nome, descricao, disponivel, tempoPreparo, pratoImagem
+            await db('item').insert({
+                nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl
             })
 
             return res.status(201).send()
@@ -24,12 +24,12 @@ module.exports = {
     },
     async update(req, res, next) {
         try {
-            const { categoria, preco, nome, descricao, disponivel, tempoPreparo, pratoImagem } = req.body
+            const { nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl } = req.body
             const { idItem } = req.params
 
-            await knex('item')
+            await db('item')
             .update({
-                categoria, preco, nome, descricao, disponivel, tempoPreparo, pratoImagem
+                nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl
             })
             .where({ idItem })
 
@@ -42,11 +42,28 @@ module.exports = {
         try {
             const { idItem } = req.params
 
-            await knex('item')
+            await db('item')
             .where({ idItem })
             .del()
 
             return res.send()
+        } catch (error) {
+            next(error)
+        }
+    },
+    async listByFilter(req, res, next) {
+        try {
+            const query = req.query
+            
+            let filtersKey = Object.keys(query)
+            let filters = []
+
+            if (filtersKey.length > 0) {
+                filters = filtersKey.map(key => ({ column: key, order: query[key] }))
+                const itens = await db('item').orderBy(filters)
+                return res.json(itens)
+            }
+            return res.json({ message: 'nenhum filtro foi informado!'})
         } catch (error) {
             next(error)
         }

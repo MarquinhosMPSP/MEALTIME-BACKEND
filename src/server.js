@@ -22,4 +22,4 @@ app.use((error, req, res, next) => {
 })
 
 
-app.listen(PORT, () =>  console.log('Server is running'))
+app.listen(PORT, () =>  console.log('[API] Running...'))

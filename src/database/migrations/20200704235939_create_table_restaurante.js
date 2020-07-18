@@ -15,8 +15,8 @@ exports.up = async knex => knex.schema.createTable('restaurante', table => {
     table.text('estado').notNullable()
     table.boolean('aberto').defaultTo(true)
 
-    table.timestamp('dataCriacao').defaultTo(knex.fn.now())
-    table.timestamp('dataAtualizacao').defaultTo(knex.fn.now())
+    table.timestamp('dt_criacao').defaultTo(knex.fn.now())
+    table.timestamp('dt_atualizacao').defaultTo(knex.fn.now())
 }).then(() => knex.raw(onUpdateTrigger('restaurante')))
 
 exports.down = async knex => knex.schema.dropTable('restaurante')

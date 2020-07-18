@@ -1,16 +1,16 @@
 
-const knex = require('../database')
+const db = require('../database')
 
 module.exports = {
     async index(req, res, next) { 
         try {
             const { user_id, page = 1 } = req.query;
 
-            const query = knex('projects')
+            const query = db('projects')
             .limit(5)
             .offset((page - 1) * 5)
 
-            const countObj = knex('projects').count()
+            const countObj = db('projects').count()
 
             
             if  (user_id) {
@@ -38,7 +38,7 @@ module.exports = {
         try {
             const { title, user_id } = req.body
 
-            await knex('projects').insert({
+            await db('projects').insert({
                 title,
                 user_id
             })

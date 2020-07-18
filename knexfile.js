@@ -12,6 +12,17 @@ module.exports = {
   seeds: {
     directory: `${__dirname}/src/database/seeds`
   },
+  pool: {
+    afterCreate:  (conn, done) => {
+      console.log('[DB] Connected...')
+      conn.query('SET timezone="UTC";', function (err) {
+        if (err) {
+          console.log('[DB] Error...');
+        } 
+        return done(err, conn);
+      });
+    }
+  },
   onUpdateTrigger: table  => `
   CREATE TRIGGER ${table}_updated_at
   BEFORE UPDATE ON ${table}

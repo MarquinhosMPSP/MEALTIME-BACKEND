@@ -1,7 +1,7 @@
 
 const { onUpdateTrigger } = require("../../../knexfile")
 
-exports.up = async knex => knex.schema.createTable('reserva', table => {
+exports.up = async knex => knex.schema.createTable('pedido', table => {
     table.increments('idPedido')
     table.integer('idComanda')
         .references('comanda.idComanda')
@@ -15,10 +15,10 @@ exports.up = async knex => knex.schema.createTable('reserva', table => {
     table.enum('status', ['criado', 'preparando', 'finalizado']).notNullable().defaultTo('criado')
         
     table.timestamp('dataPedido').defaultTo(knex.fn.now())
-    table.timestamp('dataCriacao').defaultTo(knex.fn.now())
-    table.timestamp('dataAtualizacao').defaultTo(knex.fn.now())
+    table.timestamp('dt_criacao').defaultTo(knex.fn.now())
+    table.timestamp('dt_atualizacao').defaultTo(knex.fn.now())
 
-    table.primary(['idPedido', 'idComanda', 'idItem'])
-}).then(() => knex.raw(onUpdateTrigger('reserva')))
+    // table.primary(['idPedido', 'idComanda', 'idItem'])
+}).then(() => knex.raw(onUpdateTrigger('pedido')))
 
-exports.down = async knex => knex.schema.dropTable('reserva')
+exports.down = async knex => knex.schema.dropTable('pedido')

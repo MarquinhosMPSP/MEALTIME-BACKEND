@@ -26,7 +26,7 @@ Querem dar o próximo passo no conhecimento, criação e manutenção de banco d
 - Knex vs SQL Raw
 
 ```sql
-knex('users').where('id', 1)
+db('users').where('id', 1)
 
 select * from `users` where `id` = 1
 ```

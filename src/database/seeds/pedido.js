@@ -16,7 +16,7 @@ exports.seed = function(knex) {
         },
         {
           idComanda: 2,
-          idItem: 2,
+          idItem: 1,
           status: 'preparando'
         },
       ]);

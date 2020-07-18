@@ -5,7 +5,10 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "rollback": "npx knex migrate:rollback -all",
+    "migrations": "npx knex migrate:latest",
+    "seeds": "npx knex seed:run"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +19,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "knex": "^0.21.1",
-    "pg": "^8.0.3"
+    "pg": "^8.0.3",
+    "sqlite3": "^5.0.0"
   }
 }

@@ -6,22 +6,20 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex('item').insert([
         {
-          categoria: "Almoço",
-          preco: 27.99,
           nome: "Feijoada",
+          preco: 27.99,
           descricao:"Feijão preto, carne, linguiça, bacon e costela",
           disponivel: true,
           tempoPreparo: 30,
-          pratoImagem: "src/img/feijoada"
+          pratoImgUrl: "src/img/feijoada"
         },
         {
-          categoria: "Almoço",
-          preco: 20.50,
           nome: "Brasileiro",
+          preco: 20.50,
           descricao: "Arroz, feijão, frango grelhado e salada",
           disponivel: true,
           tempoPreparo: 15,
-          pratoImagem:"src/img/brasileiro"
+          pratoImgUrl:"src/img/brasileiro"
         }
       ]);
     });

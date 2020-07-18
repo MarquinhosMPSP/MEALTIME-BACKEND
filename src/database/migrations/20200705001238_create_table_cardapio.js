@@ -12,8 +12,8 @@ exports.up = async knex => knex.schema.createTable('cardapio', table => {
         .notNullable()
         .onDelete('CASCADE')
 
-    table.timestamp('dataCriacao').defaultTo(knex.fn.now())
-    table.timestamp('dataAtualizacao').defaultTo(knex.fn.now())
+    table.timestamp('dt_criacao').defaultTo(knex.fn.now())
+    table.timestamp('dt_atualizacao').defaultTo(knex.fn.now())
 
     table.primary(['idCardapio', 'idRestaurante', 'idItem'])
 }).then(() => knex.raw(onUpdateTrigger('cardapio')))
