@@ -5,6 +5,7 @@ const UsuarioController = require('./controllers/UsuarioController')
 const ItemController = require('./controllers/ItemController')
 const MesaController = require('./controllers/MesaController')
 const RestauranteController = require('./controllers/RestauranteController')
+const ReservaController = require('./controllers/ReservaController')
 
 routes
     // Usuario
@@ -30,5 +31,11 @@ routes
     .post('/restaurantes', RestauranteController.create)
     .put('/restaurantes/:idRestaurante', RestauranteController.update)
     .delete('/restaurantes/:idRestaurante', RestauranteController.delete)
+    // Reservas
+    .get('/reservas', ReservaController.index)
+    .get('/reservas/filtro', ReservaController.listByFilter)
+    .post('/reservas', ReservaController.create)
+    .put('/reservas/:idRestaurante', ReservaController.update)
+    .delete('/reservas/:idRestaurante', ReservaController.delete)
 
 module.exports = routes

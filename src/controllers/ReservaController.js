@@ -1,4 +1,4 @@
-import knex from 'knex'
+const db = require("../database")
 
 module.exports = {
     async index(req, res, next) {
@@ -11,11 +11,11 @@ module.exports = {
     },
     async create(req, res, next) {
         try {
-            const { idReserva, idRestaurante, idCliente, idPedido, idLugar, dataReserva, ativa, pagamentoApp } = req.body
+            const { idRestaurante, idCliente, idMesa, idComanda, ativa, pagamentoApp } = req.body
 
             await db('reserva')
             .insert({
-                idReserva, idRestaurante, idCliente, idPedido, idLugar, dataReserva, ativa, pagamentoApp
+                idRestaurante, idCliente, idMesa, idComanda, ativa, pagamentoApp
             })
 
             return res.status(201).send()
@@ -25,7 +25,15 @@ module.exports = {
     },
     async update(req, res, next) {
         try {
-            const {  } = req.body
+            const { idRestaurante, idCliente, idMesa, idComanda, ativa, pagamentoApp } = req.body
+
+            const { idReserva } = req.params
+
+            await db('reserva')
+            .update({
+                idRestaurante, idCliente, idMesa, idComanda, ativa, pagamentoApp
+            })
+            .where({ idReserva })
 
             return res.send()
         } catch (error) {
@@ -34,9 +42,26 @@ module.exports = {
     },
     async delete(req, res, next) {
         try {
-            const {  } = req.params
+            const { idReserva } = req.params
+
+            await db('reserva')
+            .where({ idReserva })
+            .del()
 
             return res.send()
+        } catch (error) {
+            next(error)
+        }
+    },
+    async listByFilter(req, res, next) {
+        try {
+            const query = req.query
+            
+            if (Object.keys(query).length > 0) {
+                const reservas = await db('reserva').where(query)
+                return res.json(reservas)
+            }
+            return res.json({ message: 'nenhum filtro foi informado!'})
         } catch (error) {
             next(error)
         }
