@@ -1,10 +1,13 @@
 // Update with your config settings.
-
-const environment = require("./src/environments/environment");
+const localConnection = {
+  database: process.env.DATABASE_NAME,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASS
+}
 
 module.exports = {
   client: 'pg',
-  connection: process.env.DATABASE_URL || environment.database,
+  connection: process.env.DATABASE_URL || localConnection,
   migrations: {
     tableName: 'knex_migrations',
     directory: `${__dirname}/src/database/migrations`

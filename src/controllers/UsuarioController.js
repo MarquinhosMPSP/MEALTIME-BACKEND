@@ -49,12 +49,5 @@ module.exports = {
         } catch (error) {
             return next(error)
         }
-    },
-    async login(req, res, next) {
-        try {
-            
-        } catch (error) {
-            return next(error)
-        }
     }
 }
