@@ -6,7 +6,7 @@ module.exports = {
             const results = await db('usuario')
             return res.json(results)
         } catch (error) {
-            next(error)
+            return next(error)
         }
     },
     async create(req, res, next) {
@@ -19,7 +19,7 @@ module.exports = {
 
             return res.status(201).send()
         } catch (error) {
-            next(error)
+            return next(error)
         }
     },
     async update(req, res, next) {
@@ -34,7 +34,7 @@ module.exports = {
             return res.send()
 
         } catch (error) {
-            next(error)
+            return next(error)
         }
     },
     async delete(req, res, next) {
@@ -47,7 +47,14 @@ module.exports = {
 
             return res.send()
         } catch (error) {
-            next(error)
+            return next(error)
+        }
+    },
+    async login(req, res, next) {
+        try {
+            
+        } catch (error) {
+            return next(error)
         }
     }
 }

@@ -7,7 +7,7 @@ module.exports = {
             const restaurantes = await db('restaurante')
             return res.json(restaurantes)
         } catch (error) {
-            next(error)
+            return next(error)
         }
     },
     async create(req, res, next) {
@@ -21,7 +21,7 @@ module.exports = {
 
             return res.status(201).send()
         } catch (error) {
-            next(error)
+            return next(error)
         }
     },
     async update(req, res, next) {
@@ -38,7 +38,7 @@ module.exports = {
 
             return res.send()
         } catch (error) {
-            next(error)
+            return next(error)
         }
     },
     async delete(req, res, next) {
@@ -51,7 +51,7 @@ module.exports = {
 
             return res.send()
         } catch (error) {
-            next(error)
+            return next(error)
         }
     },
     async listByCategory(req, res, next) {
@@ -70,7 +70,7 @@ module.exports = {
             }
             return res.status(404).json({ message: 'categoria inválida!' })
         } catch (error) {
-            next(error)
+            return next(error)
         }
     }
 }

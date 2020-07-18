@@ -6,7 +6,7 @@ module.exports = {
             const results = await db('mesa')
             return res.json(results)
         } catch (error) {
-            next(error)
+            return next(error)
         }
     },
     async create(req, res) {
@@ -33,7 +33,7 @@ module.exports = {
             
             return res.send()
         } catch (error) {
-            next(error)
+            return next(error)
         }
     },
     async delete(req, res, next) {
@@ -46,7 +46,7 @@ module.exports = {
             
             return res.send()
         } catch (error) {
-            next(error)
+            return next(error)
         }
     },
     async listByRestaurant(req, res, next) {
@@ -57,7 +57,7 @@ module.exports = {
     
             return res.json(result)
         } catch (error) {
-            next(error)            
+            return next(error)            
         }
     }
 }

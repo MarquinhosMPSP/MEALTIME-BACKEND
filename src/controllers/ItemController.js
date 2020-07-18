@@ -6,7 +6,7 @@ module.exports = {
             const results = await db('item')
             return res.json(results)
         } catch (error) {
-            next(error)
+            return next(error)
         }
     },
     async create(req, res, next) {
@@ -19,7 +19,7 @@ module.exports = {
 
             return res.status(201).send()
         } catch (error) {
-            next(error)
+            return next(error)
         }
     },
     async update(req, res, next) {
@@ -35,7 +35,7 @@ module.exports = {
 
             return res.send()
         } catch (error) {
-            next(error)
+            return next(error)
         }
     },
     async delete(req, res, next) {
@@ -48,7 +48,7 @@ module.exports = {
 
             return res.send()
         } catch (error) {
-            next(error)
+            return next(error)
         }
     },
     async listByFilter(req, res, next) {
@@ -65,7 +65,7 @@ module.exports = {
             }
             return res.json({ message: 'nenhum filtro foi informado!'})
         } catch (error) {
-            next(error)
+            return next(error)
         }
     }
 }

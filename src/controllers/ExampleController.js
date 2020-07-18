@@ -31,7 +31,7 @@ module.exports = {
             
             return res.json(results)
         } catch (error) {
-            next(error)
+            return next(error)
         }
     },
     async create(req, res, next) {
@@ -45,7 +45,7 @@ module.exports = {
 
             return res.status(201).send()
         } catch (error) {
-            next(error)
+            return next(error)
         }
     }
 }
