@@ -11,11 +11,11 @@ module.exports = {
     },
     async create(req, res, next) {
         try {
-            const { idRestaurante, idCliente, idMesa, idComanda, ativa, pagamentoApp } = req.body
+            const { idRestaurante, idCliente, idMesa, idComanda, ativa, pagamentoApp, dataReserva } = req.body
 
             await db('reserva')
             .insert({
-                idRestaurante, idCliente, idMesa, idComanda, ativa, pagamentoApp
+                idRestaurante, idCliente, idMesa, idComanda, ativa, pagamentoApp, dataReserva
             })
 
             return res.status(201).send()
