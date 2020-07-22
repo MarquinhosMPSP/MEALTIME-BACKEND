@@ -3,7 +3,7 @@ const db = require('../database')
 module.exports = {
     async index(req, res, next) { 
         try {
-            const results = await db('usuario')
+            const results = await db('comanda')
             return res.json(results)
         } catch (error) {
             return next(error)
@@ -11,10 +11,10 @@ module.exports = {
     },
     async create(req, res, next) {
         try {
-            const { nome, login, senha, idPerfil, idRestaurante } = req.body
+            const { idRestaurante } = req.body
 
-            await db('usuario').insert({
-                nome, login, senha
+            await db('comanda').insert({
+                idRestaurante
             })
 
             return res.status(201).send()
@@ -24,12 +24,12 @@ module.exports = {
     },
     async update(req, res, next) {
         try {
-            const { nome, login, senha, idPerfil, idRestaurante } = req.body
-            const { idUsuario } = req.params
+            const { idRestaurante } = req.body
+            const { idComanda } = req.params
             
-            await db('usuario')
-            .update({ nome, login, senha, idPerfil, idRestaurante })
-            .where({ idUsuario })
+            await db('comanda')
+            .update({ idRestaurante })
+            .where({ idComanda })
 
             return res.send()
 
@@ -39,10 +39,10 @@ module.exports = {
     },
     async delete(req, res, next) {
         try {
-            const { idUsuario } = req.params
+            const { idComanda } = req.params
 
-            await db('usuario')
-            .where({ idUsuario })
+            await db('comanda')
+            .where({ idComanda })
             .del()
 
             return res.send()

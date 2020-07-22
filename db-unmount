@@ -4,6 +4,7 @@ npx knex migrate:down 20200705213017_create_table_comanda.js
 npx knex migrate:down 20200705001238_create_table_cardapio.js
 npx knex migrate:down 20200701202115_create_table_item.js
 npx knex migrate:down 20200701205542_create_table_mesa.js
-npx knex migrate:down 20200704235939_create_table_restaurante.js
 npx knex migrate:down 20200703191935_create_table_usuario.js
+npx knex migrate:down 20200704235939_create_table_restaurante.js
+npx knex migrate:down 20200721225805_create_table_perfil.js
 npx knex migrate:down 20200328221645_add_custom_functions.js

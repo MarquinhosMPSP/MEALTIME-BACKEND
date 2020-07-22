@@ -14,7 +14,6 @@ exports.up = async knex => knex.schema.createTable('pedido', table => {
 
     table.enum('status', ['criado', 'preparando', 'finalizado']).notNullable().defaultTo('criado')
         
-    table.timestamp('dataPedido').defaultTo(knex.fn.now())
     table.timestamp('dt_criacao').defaultTo(knex.fn.now())
     table.timestamp('dt_atualizacao').defaultTo(knex.fn.now())
 

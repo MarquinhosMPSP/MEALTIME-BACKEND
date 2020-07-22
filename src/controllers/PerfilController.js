@@ -3,7 +3,7 @@ const db = require('../database')
 module.exports = {
     async index(req, res, next) { 
         try {
-            const results = await db('usuario')
+            const results = await db('perfil')
             return res.json(results)
         } catch (error) {
             return next(error)
@@ -11,10 +11,10 @@ module.exports = {
     },
     async create(req, res, next) {
         try {
-            const { nome, login, senha, idPerfil, idRestaurante } = req.body
+            const { tipoPerfil } = req.body
 
-            await db('usuario').insert({
-                nome, login, senha
+            await db('perfil').insert({
+                tipoPerfil
             })
 
             return res.status(201).send()
@@ -24,12 +24,12 @@ module.exports = {
     },
     async update(req, res, next) {
         try {
-            const { nome, login, senha, idPerfil, idRestaurante } = req.body
-            const { idUsuario } = req.params
+            const { tipoPerfil } = req.body
+            const { idPerfil } = req.params
             
-            await db('usuario')
-            .update({ nome, login, senha, idPerfil, idRestaurante })
-            .where({ idUsuario })
+            await db('perfil')
+            .update({ tipoPerfil })
+            .where({ idPerfil })
 
             return res.send()
 
@@ -39,10 +39,10 @@ module.exports = {
     },
     async delete(req, res, next) {
         try {
-            const { idUsuario } = req.params
+            const { idPerfil } = req.params
 
-            await db('usuario')
-            .where({ idUsuario })
+            await db('perfil')
+            .where({ idPerfil })
             .del()
 
             return res.send()

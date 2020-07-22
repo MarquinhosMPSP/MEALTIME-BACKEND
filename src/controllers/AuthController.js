@@ -8,13 +8,15 @@ module.exports = {
 
             if (login && senha) {
                 const usuario = await db('usuario')
-                    .column('idUsuario', 'nome')
                     .where({ login, senha })
+                    .join('restaurante', 'usuario.idRestaurante', 'restaurante.idRestaurante')
+                    .select('usuario.idUsuario', 'usuario.nome', 'restaurante.idRestaurante', 'restaurante.nomeRestaurante')
                     .first()
+                    
                 if (usuario) {
                     const token = jwt.sign({ usuario }, process.env.SECRET_KEY, { 
                         expiresIn: '1 day'
-                     })
+                    })
 
                     return res.json({ token, usuario })
                 }

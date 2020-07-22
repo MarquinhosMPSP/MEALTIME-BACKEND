@@ -1,8 +1,8 @@
 // Update with your config settings.
 const localConnection = {
-  database: process.env.DATABASE_NAME,
-  user: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASS
+  database: 'mealtime_db',
+  user: 'daniel',
+  password: ''
 }
 
 module.exports = {

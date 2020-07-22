@@ -1,6 +1,7 @@
 npx knex migrate:up 20200328221645_add_custom_functions.js
-npx knex migrate:up 20200703191935_create_table_usuario.js
+npx knex migrate:up 20200721225805_create_table_perfil.js
 npx knex migrate:up 20200704235939_create_table_restaurante.js
+npx knex migrate:up 20200703191935_create_table_usuario.js
 npx knex migrate:up 20200701205542_create_table_mesa.js
 npx knex migrate:up 20200701202115_create_table_item.js
 npx knex migrate:up 20200705001238_create_table_cardapio.js
@@ -8,8 +9,9 @@ npx knex migrate:up 20200705213017_create_table_comanda.js
 npx knex migrate:up 20200704235953_create_table_pedido.js
 npx knex migrate:up 20200704235946_create_table_reserva.js
 
-npx knex seed:run --specific=usuario.js
+npx knex seed:run --specific=perfil.js
 npx knex seed:run --specific=restaurante.js
+npx knex seed:run --specific=usuario.js
 npx knex seed:run --specific=mesa.js
 npx knex seed:run --specific=item.js
 npx knex seed:run --specific=cardapio.js

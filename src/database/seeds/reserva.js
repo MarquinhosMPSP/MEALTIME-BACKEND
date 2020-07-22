@@ -10,7 +10,6 @@ exports.seed = function(knex) {
           idCliente: 1,
           idMesa: 1,
           idComanda: 1,
-          ativa: true,
           pagamentoApp: true
         },
         {
@@ -18,7 +17,23 @@ exports.seed = function(knex) {
           idCliente: 2,
           idMesa: 1,
           idComanda: 1,
-          ativa: true,
+          status: 'aceita',
+          pagamentoApp: true
+        },
+        {
+          idRestaurante: 2,
+          idCliente: 1,
+          idMesa: 1,
+          idComanda: 1,
+          status: 'cancelada',
+          pagamentoApp: true
+        },
+        {
+          idRestaurante: 1,
+          idCliente: 2,
+          idMesa: 1,
+          idComanda: 1,
+          status: 'finalizada',
           pagamentoApp: true
         },
       ]);
