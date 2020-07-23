@@ -43,7 +43,7 @@ routes
     .get('/reservas', ReservaController.index)
     .get('/reservas/filtro', ReservaController.listByFilter)
     .post('/reservas', validateToken, ReservaController.create)
-    .put('/reservas/:idRestaurante', validateToken, ReservaController.update)
+    .put('/reservas/:idReserva', validateToken, ReservaController.update)
     .delete('/reservas/:idRestaurante', validateToken, ReservaController.delete)
     // Comandas
     .get('/comandas', ComandaController.index)
