@@ -56,10 +56,21 @@ module.exports = {
     async listByFilter(req, res, next) {
         try {
             const query = req.query
-            
+            let dataReserva = null
+
+            if ('dataReserva' in query) {
+                dataReserva = `dataReserva = ${query.dataReserva}`
+                delete query.dataReserva
+            }
+
             if (Object.keys(query).length > 0) {
-                const reservas = await db('reserva').where(query)
-                return res.json(reservas)
+                let sql = db('reserva').where(query)
+                if (dataReserva) {
+                    sql.where(dataReserva)
+                }
+                sql.then(reservas => {
+                    return res.json(reservas)
+                })
             }
             return res.json({ message: 'nenhum filtro foi informado!'})
         } catch (error) {
