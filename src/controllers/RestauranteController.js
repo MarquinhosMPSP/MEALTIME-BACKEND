@@ -5,7 +5,20 @@ module.exports = {
     async index(req, res, next) {
         try {
             const restaurantes = await db('restaurante')
-            return res.json(restaurantes)
+
+            const categorias = restaurantes.reduce((total, curr) => {
+                if (total.includes(curr.categoria)) return [...total]
+                return [...total, curr.categoria]
+            }, [])
+
+            let lista = []
+
+            categorias.forEach(c => {
+                let restaurantesPorCategoria = restaurantes.filter(r => r.categoria === c)
+                lista.push({ categoria: c, restaurantes: restaurantesPorCategoria, qtd: restaurantesPorCategoria.length })
+            })
+
+            return res.json(lista)
         } catch (error) {
             return next(error)
         }
@@ -13,6 +26,10 @@ module.exports = {
     async create(req, res, next) {
         try {
             const { nomeRestaurante, descricao, categoria, cnpj, endereco, numero, bairro, cep, cidade, estado, aberto } = req.body
+
+            if (categoria && !(categoria.toLowerCase() in categorias)) {
+                return res.status(404).json({ message: 'categoria inválida!' })
+            }
 
             await db('restaurante')
             .insert({
@@ -29,6 +46,10 @@ module.exports = {
             const { nomeRestaurante, descricao, categoria, cnpj, endereco, numero, bairro, cep, cidade, estado, aberto } = req.body
 
             const { idRestaurante } = req.params
+
+            if (categoria && !(categoria.toLowerCase() in categorias)) {
+                return res.status(404).json({ message: 'categoria inválida!' })
+            }
 
             await db('restaurante')
             .update({
