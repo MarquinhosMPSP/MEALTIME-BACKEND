@@ -102,7 +102,7 @@ module.exports = {
                 .where('mesa.quantidadeLugares', qtdPessoas)
                 .where('mesa.idRestaurante', idRestaurante)
                 .whereNotIn('reserva.status', ['finalizada', 'cancelada'])
-                .whereRaw('??::date = ?', ['dataReserva', dataReserva])
+                .whereRaw('??::timestamp = ?', ['dataReserva', dataReserva])
                 .join('reserva', 'reserva.idMesa', 'mesa.idMesa')
                 .select('mesa.idMesa', 'reserva.idReserva', 'mesa.quantidadeLugares', 'mesa.disponivel', 'reserva.dataReserva', 'reserva.status')
 
