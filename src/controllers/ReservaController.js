@@ -12,14 +12,18 @@ module.exports = {
     },
     async create(req, res, next) {
         try {
-            const { idRestaurante, idCliente, idMesa, idComanda, status, pagamentoApp, dataReserva } = req.body
+            const { idRestaurante, idCliente, idMesa, status, pagamentoApp, dataReserva } = req.body
+
+            const [ idComanda ] = await db('comanda').insert({ idRestaurante }).returning('idComanda')
+
+            console.log(idComanda);
 
             await db('reserva')
             .insert({
                 idRestaurante, idCliente, idMesa, idComanda, status, pagamentoApp, dataReserva
             })
 
-            return res.status(201).send()
+            return res.status(201).json({ idComanda })
         } catch (error) {
             return next(error)
         }
