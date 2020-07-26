@@ -42,9 +42,11 @@ routes
     // Reservas
     .get('/reservas', ReservaController.index)
     .get('/reservas/filtro', ReservaController.listByFilter)
+    .get('/reservas/:idRestaurante/disponibilidade', ReservaController.availability)
     .post('/reservas', validateToken, ReservaController.create)
     .put('/reservas/:idReserva', validateToken, ReservaController.update)
-    .delete('/reservas/:idRestaurante', validateToken, ReservaController.delete)
+    .delete('/reservas/:idReserva', validateToken, ReservaController.delete)
+    .delete('/reservas', validateToken, ReservaController.deleteAll)
     // Comandas
     .get('/comandas', ComandaController.index)
     .post('/comandas', validateToken, ComandaController.create)
