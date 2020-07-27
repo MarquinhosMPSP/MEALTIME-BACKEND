@@ -2,9 +2,7 @@
 const localConnection = {
   database: 'mealtime_db',
   user: 'daniel',
-  password: '',
-  timezone: 'UTC',
-  dateStrings: true
+  password: ''
 }
 
 module.exports = {

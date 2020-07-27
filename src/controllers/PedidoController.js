@@ -1,5 +1,5 @@
 const db = require('../database')
-const { calcularValorTotal } = require('../services/pedido')
+const { calculateTotalValue } = require('../services/util')
 
 module.exports = {
     async index(req, res, next) { 
@@ -69,7 +69,7 @@ module.exports = {
                     .orderBy(filters)
                     .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'item.*')
 
-                resultado.valorTotal = calcularValorTotal(resultado.pedidos)
+                resultado.valorTotal = calculateTotalValue(resultado.pedidos, 'preco')
 
                 return res.json(resultado)
             }
@@ -79,7 +79,7 @@ module.exports = {
                 .join('item', 'pedido.idItem', 'item.idItem')
                 .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'item.*')
 
-            resultado.valorTotal = calcularValorTotal(resultado.pedidos)
+            resultado.valorTotal = calculateTotalValue(resultado.pedidos, 'preco')
 
             return res.json(resultado)
         } catch (error) {

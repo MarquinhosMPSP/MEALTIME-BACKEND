@@ -21,5 +21,4 @@ app.use(require('./middlewares/headers'))
 app.use(require('./middlewares/notFound'))
 app.use(require('./middlewares/catchAll'))
 
-
-app.listen(PORT, () =>  console.log('[API] Running...'))
+app.listen(PORT, () =>  console.log('[API] running'))

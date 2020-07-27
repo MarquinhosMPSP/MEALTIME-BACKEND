@@ -1,10 +1,11 @@
 const db = require("../database")
-const { where, whereRaw } = require("../database")
+const util = require('../services/util')
+const notificationService = require('../services/notification')
 
 module.exports = {
     async index(req, res, next) {
         try {
-            const reservas = await db('reserva')
+            const reservas = await db('reserva').orderBy('dataReserva', 'desc')
             return res.json(reservas)
         } catch (error) {
             return next(error)
@@ -16,14 +17,22 @@ module.exports = {
 
             const [ idComanda ] = await db('comanda').insert({ idRestaurante }).returning('idComanda')
 
-            console.log(idComanda);
-
-            await db('reserva')
+            const [ idReserva ] = await db('reserva')
             .insert({
                 idRestaurante, idCliente, idMesa, idComanda, status, pagamentoApp, dataReserva
-            })
+            }).returning('idReserva')
 
-            return res.status(201).json({ idComanda })
+            const [{ nome, login, nomeRestaurante, nomeMesa }] = await db('reserva')
+                .where('reserva.idReserva', idReserva)
+                .join('usuario', 'reserva.idCliente', 'usuario.idUsuario')
+                .join('restaurante', 'reserva.idRestaurante', 'restaurante.idRestaurante')
+                .join('mesa', 'reserva.idMesa', 'mesa.idMesa')
+                .select('usuario.nome', 'usuario.login', 'restaurante.nomeRestaurante', 'mesa.nomeMesa')
+
+            const body = { idComanda, dataReserva, nome, nomeMesa }
+            notificationService.notifyOne('nova reseva', body, nomeRestaurante)
+
+            return res.status(201).json({ idComanda, nome, nomeRestaurante, nomeMesa, dataReserva })
         } catch (error) {
             return next(error)
         }
@@ -70,16 +79,18 @@ module.exports = {
     async listByFilter(req, res, next) {
         try {
             const query = req.query
-            let dataReserva = null
+            let dataReservaInicio = null
+            let dataReservaFim = null
             
             if (Object.keys(query).length > 0) {
                 if ('dataReserva' in query) {
-                    dataReserva = query.dataReserva
+                    dataReservaInicio = query.dataReserva
                     delete query.dataReserva
                 }
                 let sql = db('reserva').where(query)
-                if (dataReserva) {
-                    sql.whereRaw('??::date = ?', ['dataReserva', dataReserva])
+                if (dataReservaInicio) {
+                    dataReservaFim = util.getLastMinute(dataReservaInicio)
+                    sql.whereBetween('dataReserva', [dataReservaInicio, dataReservaFim])
                 }
                 const reservas = await sql.select()
                 return res.json(reservas)

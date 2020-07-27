@@ -17,7 +17,7 @@ exports.up = async knex => knex.schema.createTable('reserva', table => {
         .onDelete('CASCADE')
     table.integer('idComanda')
         .references('comanda.idComanda')
-        .notNullable()
+        .notNullable() // TODO: pode ser nulo em um primeiro momento (reserva criada e n confirmada)
         .onDelete('CASCADE')
 
     table.enum('status', ['criada', 'aceita', 'finalizada', 'cancelada']).notNullable().defaultTo('criada')

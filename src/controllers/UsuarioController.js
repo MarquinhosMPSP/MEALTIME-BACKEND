@@ -14,7 +14,7 @@ module.exports = {
             const { nome, login, senha, idPerfil, idRestaurante } = req.body
 
             await db('usuario').insert({
-                nome, login, senha
+                nome, login, senha, idPerfil, idRestaurante
             })
 
             return res.status(201).send()
