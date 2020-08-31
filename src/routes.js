@@ -36,7 +36,7 @@ routes
     // Restaurantes
     .get('/restaurantes', RestauranteController.index)
     .get('/restaurantes/categoria/:categoria', RestauranteController.listByCategory)
-    .post('/restaurantes', validateToken, RestauranteController.create)
+    .post('/restaurantes', RestauranteController.create)
     .put('/restaurantes/:idRestaurante', validateToken, RestauranteController.update)
     .delete('/restaurantes/:idRestaurante', validateToken, RestauranteController.delete)
     // Reservas
