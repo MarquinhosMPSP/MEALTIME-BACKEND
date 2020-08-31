@@ -85,5 +85,39 @@ module.exports = {
         } catch (error) {
             return next(error)
         }
+    },
+    async listOrdersByUser(req, res, next) {
+        try {
+            const { idUsuario } = req.params
+
+            const query = req.query
+            
+            let filters = []
+            let filtersKey = Object.keys(query)
+            let resultado = { valorTotal: 0, pedidos: null }
+
+            if (filtersKey.length > 0) {
+                filters = filtersKey.map(key => ({column: key, order: query[key]}))
+                resultado.pedidos = await db('pedido')
+                    .where({ idUsuario })
+                    .join('item', 'pedido.idItem', 'item.idItem')
+                    .orderBy(filters)
+                    .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'item.*')
+
+                resultado.valorTotal = calculateTotalValue(resultado.pedidos, 'preco')
+                return res.json(resultado)
+            }
+
+            resultado.pedidos = await db('pedido')
+                .where({ idUsuario })
+                .join('item', 'pedido.idItem', 'item.idItem')
+                .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'item.*')
+
+            resultado.valorTotal = calculateTotalValue(resultado.pedidos, 'preco')
+            return res.json(resultado)
+
+        } catch (error) {
+            return next(error)
+        }
     }
 }

@@ -25,15 +25,23 @@ module.exports = {
     },
     async create(req, res, next) {
         try {
-            const { nomeRestaurante, descricao, categoria, cnpj, endereco, numero, bairro, cep, cidade, estado, aberto } = req.body
+            const { nomeRestaurante, descricao, categoria, cnpj, endereco, numero, bairro, cep, cidade, estado, aberto, nome, login, senha } = req.body
 
             if (categoria) {
                 return res.status(404).json({ message: 'categoria inválida!' })
             }
 
-            await db('restaurante')
+            const restaurante = await db('restaurante')
             .insert({
                 nomeRestaurante, descricao, categoria, cnpj, endereco, numero, bairro, cep, cidade, estado, aberto
+            })
+
+            const idPerfil = 2
+            const idRestaurante = restaurante.idRestaurante
+
+            await db('usuario')
+            .insert({
+                nome, login, senha, idPerfil, idRestaurante
             })
 
             return res.status(201).send()
