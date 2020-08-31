@@ -27,7 +27,7 @@ module.exports = {
         try {
             const { nomeRestaurante, descricao, categoria, cnpj, endereco, numero, bairro, cep, cidade, estado, aberto } = req.body
 
-            if (categoria && !(categoria.toLowerCase() in categorias)) {
+            if (categoria) {
                 return res.status(404).json({ message: 'categoria inválida!' })
             }
 
