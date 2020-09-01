@@ -27,7 +27,7 @@ module.exports = {
         try {
             const { nomeRestaurante, descricao, categoria, cnpj, endereco, numero, bairro, cep, cidade, estado, aberto, nome, login, senha } = req.body
 
-            if (categoria) {
+            if (!categoria) {
                 return res.status(404).json({ message: 'categoria inválida!' })
             }
 
