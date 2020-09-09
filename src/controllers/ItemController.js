@@ -1,4 +1,5 @@
 const db = require('../database');
+const knexfile = require('../../knexfile');
 
 module.exports = {
     async index(req, res, next) { 
@@ -11,10 +12,12 @@ module.exports = {
     },
     async create(req, res, next) {
         try {
-            const { nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl } = req.body
+            const { nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl, promocao, precoCalculado } = req.body
+
+            precoCalculado = (preco - (preco * (promocao) / 100)).toFixed(2)
 
             await db('item').insert({
-                nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl
+                nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl, promocao, precoCalculado
             })
 
             return res.status(201).send()
@@ -27,9 +30,11 @@ module.exports = {
             const { nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl } = req.body
             const { idItem } = req.params
 
+            precoCalculado = (preco - (preco * (promocao) / 100)).toFixed(2)
+
             await db('item')
             .update({
-                nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl
+                nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl, promocao, precoCalculado
             })
             .where({ idItem })
 
@@ -64,6 +69,20 @@ module.exports = {
                 return res.json(itens)
             }
             return res.json({ message: 'nenhum filtro foi informado!'})
+        } catch (error) {
+            return next(error)
+        }
+    },
+    async setPromotion(req, res, next) {
+        try {
+            const { promocao, idItem } = req.body
+
+            const item = await db('item').where({ idItem })
+
+            const valorCalculado = (item.preco - (item.preco * (promocao / 100))).toFixed(2)
+
+            await db('item').where({ idItem }).update({ promocao, valorCalculado })
+
         } catch (error) {
             return next(error)
         }

@@ -26,6 +26,7 @@ routes
     .get('/itens/filtro', ItemController.listByFilter)
     .post('/itens', validateToken, ItemController.create)
     .put('/itens/:idItem', validateToken, ItemController.update)
+    .patch('/itens/promocao', validateToken, ItemController.setPromotion)
     .delete('/itens/:idItem', validateToken, ItemController.delete)
     // Mesas
     .get('/mesas', MesaController.index)
@@ -36,6 +37,7 @@ routes
     // Restaurantes
     .get('/restaurantes', RestauranteController.index)
     .get('/restaurantes/categoria/:categoria', RestauranteController.listByCategory)
+    .get('/restaurantes/cardapio/:idRestaurante', RestauranteController.listMenuByRestaurant)
     .post('/restaurantes', RestauranteController.create)
     .put('/restaurantes/:idRestaurante', validateToken, RestauranteController.update)
     .delete('/restaurantes/:idRestaurante', validateToken, RestauranteController.delete)
@@ -43,6 +45,7 @@ routes
     .get('/reservas', ReservaController.index)
     .get('/reservas/filtro', ReservaController.listByFilter)
     .get('/reservas/:idRestaurante/disponibilidade', ReservaController.availability)
+    .get('/reservas/cliente/:idCliente', ReservaController.getAllBookingsByUser)
     .post('/reservas', validateToken, ReservaController.create)
     .put('/reservas/:idReserva', validateToken, ReservaController.update)
     .delete('/reservas/:idReserva', validateToken, ReservaController.delete)

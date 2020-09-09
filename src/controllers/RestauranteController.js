@@ -101,5 +101,18 @@ module.exports = {
         } catch (error) {
             return next(error)
         }
+    },
+    async listMenuByRestaurant(req, res, next) {
+        try {
+            let { idRestaurante } = req.params
+
+            const cardapios = await db('cardapio')
+                .where({ idRestaurante })
+                .join('item', 'item.idItem', 'cardapio.idItem')
+                .orderBy('item.nome')
+            return res.json(cardapios)
+        } catch (error) {
+            return next(error)
+        }
     }
 }

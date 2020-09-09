@@ -124,5 +124,20 @@ module.exports = {
         } catch (error) {
             return next(error)
         }
+    },
+    async getAllBookingsByUser(req, res, next) {
+        try {
+            const { idCliente } = req.params
+
+            const reservasAbertas = await db('reserva')
+                .where({ idCliente })
+                .whereIn('status', ['criada', 'aceita'])
+                .join('mesa', 'mesa.idMesa', 'reserva.idMesa')
+                .join('restaurante', 'restaurante.idRestaurante', 'reserva.idRestaurante')
+
+            return res.json({ reservasAbertas })
+        } catch (error) {
+            return next(error)
+        }
     }
 }
