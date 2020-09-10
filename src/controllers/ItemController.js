@@ -77,12 +77,13 @@ module.exports = {
         try {
             const { promocao, idItem } = req.body
 
-            const item = await db('item').where({ idItem })
+            const item = await db('item').where({ idItem }).first()
 
-            const valorCalculado = (item.preco - (item.preco * (promocao / 100))).toFixed(2)
+            const precoCalculado = (item.preco - (item.preco * (promocao / 100))).toFixed(2)
 
-            await db('item').where({ idItem }).update({ promocao, valorCalculado })
+            await db('item').where({ idItem }).update({ promocao, precoCalculado })
 
+            return res.send()
         } catch (error) {
             return next(error)
         }
