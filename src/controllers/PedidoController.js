@@ -119,5 +119,31 @@ module.exports = {
         } catch (error) {
             return next(error)
         }
+    },
+    async listOrdersByRestaurant(req, res, next) {
+        try {
+            const { idRestaurante } = req.params
+            
+            let resultado = { valorTotal: 0, pedidos: null }
+
+            const comandas = await db('comanda')
+                .where({ idRestaurante })
+                .select('comanda.idComanda')
+
+            if (comandas && comandas.length > 0) {
+                const idsComanda = comandas.map(c => c.idComanda)
+                resultado.pedidos = await db('pedido')
+                    .whereIn('idComanda', idsComanda)
+                    .join('item', 'pedido.idItem', 'item.idItem')
+                    .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'item.*')
+    
+                resultado.valorTotal = calculateTotalValue(resultado.pedidos, 'preco')
+            }
+
+            return res.json(resultado)
+
+        } catch (error) {
+            return next(error)
+        }
     }
 }

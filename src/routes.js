@@ -58,6 +58,7 @@ routes
     // Pedidos
     .get('/pedidos', PedidoController.index)
     .get('/pedidos/:idComanda', PedidoController.listOrdersByOrderPad) // lista os pedidos pela comanda (+filtros)
+    .get('/pedidos/restaurante/:idRestaurante', PedidoController.listOrdersByRestaurant) 
     .post('/pedidos', validateToken, PedidoController.create)
     .put('/pedidos/:idPedido', validateToken, PedidoController.update)
     .delete('/pedidos/:idPedido', validateToken, PedidoController.delete)
