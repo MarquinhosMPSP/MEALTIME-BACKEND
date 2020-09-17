@@ -50,7 +50,7 @@ module.exports = {
             .where({ idReserva })
             .returning("*")
 
-            notificationService.notifyOne('atualizou reserva', body, reserva)
+            notificationService.notifyOne('atualizou reserva', reserva, idCliente)
 
             return res.send()
         } catch (error) {
