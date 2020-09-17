@@ -124,7 +124,7 @@ module.exports = {
         try {
             const { idRestaurante } = req.params
             
-            let resultado = {}
+            let resultado = []
 
             const comandas = await db('comanda')
                 .where({ idRestaurante })
@@ -140,13 +140,15 @@ module.exports = {
                 idsComanda.forEach(comanda => {
                     const pedidosComanda = pedidos.filter(p => p.idComanda === comanda)
                     if (pedidosComanda && pedidosComanda.length > 0) {
-                        resultado[comanda] = {}
-                        resultado[comanda].pedidos = pedidosComanda 
-                        resultado[comanda].valorTotal = calculateTotalValue(resultado[comanda].pedidos, 'preco')
+                        const item = {
+                            idComanda: comanda,
+                            pedidos: pedidosComanda,
+                            valorTotal: calculateTotalValue(pedidosComanda, 'preco')
+                        }
+                        resultado.push(item)
                     }
                 })
             }
-
             return res.json(resultado)
 
         } catch (error) {
