@@ -43,11 +43,14 @@ module.exports = {
 
             const { idReserva } = req.params
 
-            await db('reserva')
+            const reserva = await db('reserva')
             .update({
                 idRestaurante, idCliente, idMesa, idComanda, status, pagamentoApp
             })
             .where({ idReserva })
+            .returning("*")
+
+            notificationService.notifyOne('atualizou reserva', body, reserva)
 
             return res.send()
         } catch (error) {

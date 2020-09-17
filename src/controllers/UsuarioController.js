@@ -11,7 +11,7 @@ module.exports = {
     },
     async create(req, res, next) {
         try {
-            const { nome, login, senha, idPerfil, idRestaurante } = req.body
+            const { nome, login, senha, idPerfil=1, idRestaurante } = req.body
 
             await db('usuario').insert({
                 nome, login, senha, idPerfil, idRestaurante
