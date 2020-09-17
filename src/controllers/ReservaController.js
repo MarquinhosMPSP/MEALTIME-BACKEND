@@ -50,9 +50,9 @@ module.exports = {
             .where({ idReserva })
             .returning("*")
 
-            console.log(reserva);
-
-            notificationService.notifyOne('atualizou reserva', reserva, String(reserva.idCliente))
+            if (reserva && reserva.length > 0) {
+                notificationService.notifyOne('atualizou reserva', reserva, String(reserva[0].idCliente))
+            }
 
             return res.send()
         } catch (error) {
