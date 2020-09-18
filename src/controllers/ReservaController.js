@@ -144,5 +144,29 @@ module.exports = {
         } catch (error) {
             return next(error)
         }
+    },
+    async getAllBookingsByRestaurant(req, res, next) {
+        try {
+            const { idRestaurante } = req.params
+
+            const dataReservaInicio = util.getFirstMinute(new Date())
+            const dataReservaFim = util.getLastMinute(new Date())
+            
+            const reservas = await db('reserva')
+                .where('reserva.idRestaurante', idRestaurante)
+                .whereBetween('reserva.dataReserva', [dataReservaInicio, dataReservaFim])
+                .leftJoin('pedido', 'reserva.idComanda', 'pedido.idComanda')
+                .leftJoin('item', 'pedido.idItem', 'item.idItem')
+                .select(['reserva.idReserva', 'reserva.dataReserva', 'reserva.status', 'pedido.idItem', 'pedido.idComanda', 'item.*'])
+
+            const idsComanda = reservas.map(r => r.idComanda)
+
+            
+
+            return res.json(reservas)
+
+        } catch (error) {
+            return next(error)
+        }
     }
 }

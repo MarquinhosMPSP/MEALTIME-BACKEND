@@ -79,7 +79,7 @@ module.exports = {
                 .join('item', 'pedido.idItem', 'item.idItem')
                 .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'item.*')
 
-            resultado.valorTotal = calculateTotalValue(resultado.pedidos, 'preco')
+            resultado.valorTotal = calculateTotalValue(resultado.pedidos, 'precoCalculado')
 
             return res.json(resultado)
         } catch (error) {
@@ -143,7 +143,7 @@ module.exports = {
                         const item = {
                             idComanda: comanda,
                             pedidos: pedidosComanda,
-                            valorTotal: calculateTotalValue(pedidosComanda, 'preco')
+                            valorTotal: calculateTotalValue(pedidosComanda, 'precoCalculado')
                         }
                         resultado.push(item)
                     }
