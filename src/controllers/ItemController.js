@@ -12,7 +12,7 @@ module.exports = {
     },
     async create(req, res, next) {
         try {
-            const { nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl, promocao, precoCalculado } = req.body
+            const { nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl, promocao } = req.body
 
             precoCalculado = (preco - (preco * (promocao) / 100)).toFixed(2)
 
