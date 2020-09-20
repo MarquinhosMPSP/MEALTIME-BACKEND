@@ -114,5 +114,18 @@ module.exports = {
         } catch (error) {
             return next(error)
         }
+    },
+    async addItemToMenu(req, res, next) {
+        try {
+            let { idRestaurante } = req.params
+            const { idCardapio, idItem } = req.body
+
+            const cardapio = await db('cardapio')
+                .insert({ idCardapio, idItem, idRestaurante })
+                .returning('*')
+            return res.json(cardapio)
+        } catch (error) {
+            return next(error)
+        }
     }
 }

@@ -38,6 +38,7 @@ routes
     .get('/restaurantes', RestauranteController.index)
     .get('/restaurantes/categoria/:categoria', RestauranteController.listByCategory)
     .get('/restaurantes/cardapio/:idRestaurante', RestauranteController.listMenuByRestaurant)
+    .post('/restaurantes/cardapio/:idRestaurante', RestauranteController.addItemToMenu)
     .post('/restaurantes', RestauranteController.create)
     .put('/restaurantes/:idRestaurante', validateToken, RestauranteController.update)
     .delete('/restaurantes/:idRestaurante', validateToken, RestauranteController.delete)
