@@ -86,9 +86,9 @@ module.exports = {
             return next(error)
         }
     },
-    async listOrdersByUser(req, res, next) {
+    async listOrdersInRestaurantByUser(req, res, next) {
         try {
-            const { idUsuario } = req.params
+            const { idUsuario, idRestaurante } = req.params
 
             const query = req.query
             
@@ -99,8 +99,10 @@ module.exports = {
             if (filtersKey.length > 0) {
                 filters = filtersKey.map(key => ({column: key, order: query[key]}))
                 resultado.pedidos = await db('pedido')
-                    .where({ idUsuario })
                     .join('item', 'pedido.idItem', 'item.idItem')
+                    .join('comanda', 'pedido.idComanda', 'comanda.idComanda')
+                    .where('comanda.idRestaurante', idRestaurante)
+                    .where('comanda.idCliente', idUsuario)
                     .orderBy(filters)
                     .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'item.*')
 

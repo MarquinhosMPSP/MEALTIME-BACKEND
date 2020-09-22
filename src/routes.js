@@ -18,7 +18,7 @@ routes
     .post('/login', AuthController.login)
     // Usuarios
     .get('/usuarios', UsuarioController.index)
-    .post('/usuarios', validateToken, UsuarioController.create)
+    .post('/usuarios', UsuarioController.create)
     .put('/usuarios/:idUsuario', UsuarioController.update)
     .delete('/usuarios/:idUsuario', validateToken, UsuarioController.delete)
     // Itens
@@ -61,6 +61,7 @@ routes
     .get('/pedidos', PedidoController.index)
     .get('/pedidos/:idComanda', PedidoController.listOrdersByOrderPad) // lista os pedidos pela comanda (+filtros)
     .get('/pedidos/restaurante/:idRestaurante', PedidoController.listOrdersByRestaurant) 
+    .get('/pedidos/:idRestaurante/:idUsuario', PedidoController.listOrdersInRestaurantByUser) 
     .post('/pedidos', validateToken, PedidoController.create)
     .put('/pedidos/:idPedido', validateToken, PedidoController.update)
     .delete('/pedidos/:idPedido', validateToken, PedidoController.delete)
