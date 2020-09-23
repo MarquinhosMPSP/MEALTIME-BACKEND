@@ -1,5 +1,6 @@
 const db = require('../database')
 const { calculateTotalValue } = require('../services/util')
+const notificationService = require('../services/notification')
 
 module.exports = {
     async index(req, res, next) { 
@@ -28,9 +29,19 @@ module.exports = {
             const { idComanda, idItem, status } = req.body
             const { idPedido } = req.params
             
-            await db('pedido')
+            const pedido = await db('pedido')
             .update({ idComanda, idItem, status })
             .where({ idPedido })
+            .returning('*')
+
+            const reserva = await db('reserva')
+            .where({ idComanda })
+            .first()
+
+            if (reserva && reserva.idCliente) {
+                console.log(String(reserva.idCliente));
+                notificationService.notifyOne('atualizou pedido', pedido, String(reserva.idCliente))
+            }
 
             return res.send()
 
@@ -67,7 +78,7 @@ module.exports = {
                     .where({ idComanda })
                     .join('item', 'pedido.idItem', 'item.idItem')
                     .orderBy(filters)
-                    .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'item.*')
+                    .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'item.*') // adicionar data de atualizacao do pedido
 
                 resultado.valorTotal = calculateTotalValue(resultado.pedidos, 'preco')
 
@@ -152,6 +163,38 @@ module.exports = {
                 })
             }
             return res.json(resultado)
+
+        } catch (error) {
+            return next(error)
+        }
+    },
+    async makeOrder(req, res, next) {
+        try {
+            const { pedidos, idComanda } = req.body
+
+            if (idComanda && pedidos && pedidos.length > 0) {
+                const data = await new Promise((resolve, reject) => {
+                    try {
+                        pedidos.forEach(async (pedido) => {
+                            const idItem = pedido.idItem
+                            if (idItem) {
+                                const qtdItens = pedido.qtd ? pedido.qtd : 1
+                                for (let index = 0; index < qtdItens; index++) {
+                                    await db('pedido').insert({
+                                        idComanda, idItem
+                                    })
+                                }
+                                resolve("success")
+                            }
+                        })
+                    } catch (error) {
+                        reject(error)
+                    }
+                })
+                return res.json({ data })
+            }
+
+            return res.status(400)
 
         } catch (error) {
             return next(error)

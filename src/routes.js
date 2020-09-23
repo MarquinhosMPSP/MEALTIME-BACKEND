@@ -63,6 +63,7 @@ routes
     .get('/pedidos/restaurante/:idRestaurante', PedidoController.listOrdersByRestaurant) 
     .get('/pedidos/:idRestaurante/:idUsuario', PedidoController.listOrdersInRestaurantByUser) 
     .post('/pedidos', validateToken, PedidoController.create)
+    .post('/pedidos/novo', PedidoController.makeOrder)
     .put('/pedidos/:idPedido', validateToken, PedidoController.update)
     .delete('/pedidos/:idPedido', validateToken, PedidoController.delete)
     // Perfis
