@@ -12,13 +12,27 @@ module.exports = {
     },
     async create(req, res, next) {
         try {
-            const { nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl, promocao } = req.body
+            const { nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl, promocao, idRestaurante } = req.body
 
             precoCalculado = (preco - (preco * (promocao) / 100)).toFixed(2)
 
-            await db('item').insert({
-                nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl, promocao, precoCalculado
-            })
+            const [idItem] = await db('item')
+                .insert({
+                    nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl, promocao, precoCalculado
+                })
+                .returning('idItem')
+            
+            if (!idItem) return res.status(500).json({ data: 'Não foi possivel criar o item.'})
+
+            const {idCardapio} = await db('cardapio')
+                .where({ idRestaurante })
+                .select('idCardapio')
+                .first('idCardapio')
+            
+            if (!idCardapio) return res.status(500).json({ data: 'Não existe um cárdapio para associar o item.'})
+
+            await db('cardapio')
+                .insert({ idCardapio, idRestaurante, idItem })
 
             return res.status(201).send()
         } catch (error) {
