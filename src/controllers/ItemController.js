@@ -2,7 +2,7 @@ const db = require('../database');
 const knexfile = require('../../knexfile');
 
 module.exports = {
-    async index(req, res, next) { 
+    async index(req, res, next) {
         try {
             const results = await db('item')
             return res.json(results)
@@ -21,15 +21,15 @@ module.exports = {
                     nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl, promocao, precoCalculado
                 })
                 .returning('idItem')
-            
-            if (!idItem) return res.status(500).json({ data: 'Não foi possivel criar o item.'})
 
-            const {idCardapio} = await db('cardapio')
+            if (!idItem) return res.status(500).json({ data: 'Não foi possivel criar o item.' })
+
+            const { idCardapio } = await db('cardapio')
                 .where({ idRestaurante })
                 .select('idCardapio')
                 .first('idCardapio')
-            
-            if (!idCardapio) return res.status(500).json({ data: 'Não existe um cárdapio para associar o item.'})
+
+            if (!idCardapio) return res.status(500).json({ data: 'Não existe um cárdapio para associar o item.' })
 
             await db('cardapio')
                 .insert({ idCardapio, idRestaurante, idItem })
@@ -47,10 +47,10 @@ module.exports = {
             precoCalculado = (preco - (preco * (promocao) / 100)).toFixed(2)
 
             await db('item')
-            .update({
-                nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl, promocao, precoCalculado
-            })
-            .where({ idItem })
+                .update({
+                    nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl, promocao, precoCalculado
+                })
+                .where({ idItem })
 
             return res.send()
         } catch (error) {
@@ -62,8 +62,8 @@ module.exports = {
             const { idItem } = req.params
 
             await db('item')
-            .where({ idItem })
-            .del()
+                .where({ idItem })
+                .del()
 
             return res.send()
         } catch (error) {
@@ -73,7 +73,7 @@ module.exports = {
     async listByFilter(req, res, next) {
         try {
             const query = req.query
-            
+
             let filtersKey = Object.keys(query)
             let filters = []
 
@@ -82,7 +82,7 @@ module.exports = {
                 const itens = await db('item').orderBy(filters)
                 return res.json(itens)
             }
-            return res.json({ message: 'nenhum filtro foi informado!'})
+            return res.json({ message: 'nenhum filtro foi informado!' })
         } catch (error) {
             return next(error)
         }

@@ -148,7 +148,9 @@ module.exports = {
                 const pedidos = await db('pedido')
                     .whereIn('idComanda', idsComanda)
                     .join('item', 'pedido.idItem', 'item.idItem')
-                    .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'item.*')
+                    .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'pedido.dt_', 'item.*')
+                    .whereNot('pedido.status', 'finalizado')
+                    .orderBy([{column: 'pedido.idComanda', order: 'desc'}, {column: 'pedido.idPedido', order: 'desc'}])
 
                 idsComanda.forEach(comanda => {
                     const pedidosComanda = pedidos.filter(p => p.idComanda === comanda)
