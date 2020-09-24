@@ -29,7 +29,7 @@ module.exports = {
                 .join('mesa', 'reserva.idMesa', 'mesa.idMesa')
                 .select('usuario.nome', 'usuario.login', 'restaurante.nomeRestaurante', 'mesa.nomeMesa')
 
-            const body = { idComanda, dataReserva, nome, nomeMesa, route: '/home/cardapio' }
+            const body = { idComanda, dataReserva, nome, nomeMesa, route: '/home/reservas' }
             notificationService.notifyOne('nova reseva', body, nomeRestaurante)
 
             return res.status(201).json({ idComanda, nome, nomeRestaurante, nomeMesa, dataReserva })
