@@ -40,7 +40,7 @@ module.exports = {
     },
     async update(req, res, next) {
         try {
-            const { nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl } = req.body
+            const { nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl, promocao } = req.body
             const { idItem } = req.params
 
             precoCalculado = (preco - (preco * (promocao || 0) / 100)).toFixed(2)
