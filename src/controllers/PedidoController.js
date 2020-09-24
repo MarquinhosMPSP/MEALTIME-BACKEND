@@ -171,7 +171,7 @@ module.exports = {
     },
     async makeOrder(req, res, next) {
         try {
-            const { pedidos, idComanda, dataReserva } = req.body
+            const { pedidos, idComanda, dataReserva, nomeRestaurante } = req.body
 
             if (!isToday(new Date(dataReserva))) return res.json({ data: "Somente são permitidos pedidos no dia da reserva." })
 
@@ -192,6 +192,9 @@ module.exports = {
                                 resolve("Pedido(s) criado(s) com sucesso")
                             }
                         })
+                        if (nomeRestaurante && idComanda) {
+                            notificationService.notifyOne('novo pedido', idComanda, nomeRestaurante)
+                        }
                     } catch (error) {
                         reject(error)
                     }
