@@ -5,20 +5,20 @@ exports.seed = function(knex) {
     .then(function () {
       // Inserts seed entries
       return knex('pedido').insert([
-        {
-          idComanda: 1,
-          idItem: 1,
-          status: 'finalizado'
-        },
-        {
-          idComanda: 1,
-          idItem: 2,
-        },
-        {
-          idComanda: 2,
-          idItem: 1,
-          status: 'preparando'
-        },
+        // {
+        //   idComanda: 1,
+        //   idItem: 1,
+        //   status: 'finalizado'
+        // },
+        // {
+        //   idComanda: 1,
+        //   idItem: 2,
+        // },
+        // {
+        //   idComanda: 2,
+        //   idItem: 1,
+        //   status: 'preparando'
+        // },
       ]);
     });
 };

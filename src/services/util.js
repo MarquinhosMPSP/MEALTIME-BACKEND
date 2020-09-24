@@ -11,4 +11,10 @@ module.exports = {
         const totalValue = arr.reduce((prev, curr) => prev += curr[target], 0)
         return Number(totalValue.toFixed(2))
     },
+    isToday(date) {
+        const today = new Date()
+        return date.getDate() === today.getDate() &&
+            date.getMonth() === today.getMonth() &&
+            date.getFullYear() === today.getFullYear();
+    }
 }

@@ -1,5 +1,5 @@
 const db = require('../database')
-const { calculateTotalValue } = require('../services/util')
+const { calculateTotalValue, isToday } = require('../services/util')
 const notificationService = require('../services/notification')
 
 module.exports = {
@@ -39,7 +39,6 @@ module.exports = {
             .first()
 
             if (reserva && reserva.idCliente) {
-                console.log(String(reserva.idCliente));
                 notificationService.notifyOne('atualizou pedido', pedido, String(reserva.idCliente))
             }
 
@@ -67,7 +66,7 @@ module.exports = {
             const { idComanda } = req.params
 
             const query = req.query
-            
+
             let filtersKey = Object.keys(query)
             let filters = []
             let resultado = { valorTotal: 0, pedidos: null }
@@ -78,7 +77,7 @@ module.exports = {
                     .where({ idComanda })
                     .join('item', 'pedido.idItem', 'item.idItem')
                     .orderBy(filters)
-                    .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'item.*') // adicionar data de atualizacao do pedido
+                    .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'pedido.dataPedido', 'item.*') // adicionar data de atualizacao do pedido
 
                 resultado.valorTotal = calculateTotalValue(resultado.pedidos, 'preco')
 
@@ -88,7 +87,7 @@ module.exports = {
             resultado.pedidos = await db('pedido')
                 .where({ idComanda })
                 .join('item', 'pedido.idItem', 'item.idItem')
-                .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'item.*')
+                .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'pedido.dataPedido', 'item.*')
 
             resultado.valorTotal = calculateTotalValue(resultado.pedidos, 'precoCalculado')
 
@@ -124,7 +123,7 @@ module.exports = {
             resultado.pedidos = await db('pedido')
                 .where({ idUsuario })
                 .join('item', 'pedido.idItem', 'item.idItem')
-                .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'item.*')
+                .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'pedido.dataPedido', 'item.*')
 
             resultado.valorTotal = calculateTotalValue(resultado.pedidos, 'preco')
             return res.json(resultado)
@@ -148,7 +147,7 @@ module.exports = {
                 const pedidos = await db('pedido')
                     .whereIn('idComanda', idsComanda)
                     .join('item', 'pedido.idItem', 'item.idItem')
-                    .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'item.*')
+                    .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'pedido.dataPedido', 'item.*')
                     .whereNot('pedido.status', 'finalizado')
                     .orderBy([{column: 'pedido.idComanda', order: 'desc'}, {column: 'pedido.idPedido', order: 'desc'}])
 
@@ -172,7 +171,11 @@ module.exports = {
     },
     async makeOrder(req, res, next) {
         try {
-            const { pedidos, idComanda } = req.body
+            const { pedidos, idComanda, dataReserva } = req.body
+
+            if (!isToday(new Date(dataReserva))) return res.json({ data: "Somente são permitidos pedidos no dia da reserva." })
+
+            const dataPedido = dataReserva
 
             if (idComanda && pedidos && pedidos.length > 0) {
                 const data = await new Promise((resolve, reject) => {
@@ -183,10 +186,10 @@ module.exports = {
                                 const qtdItens = pedido.qtd ? pedido.qtd : 1
                                 for (let index = 0; index < qtdItens; index++) {
                                     await db('pedido').insert({
-                                        idComanda, idItem
+                                        idComanda, idItem, dataPedido
                                     })
                                 }
-                                resolve("success")
+                                resolve("Pedido(s) criado(s) com sucesso")
                             }
                         })
                     } catch (error) {

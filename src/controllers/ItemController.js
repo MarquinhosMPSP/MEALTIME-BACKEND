@@ -1,5 +1,4 @@
 const db = require('../database');
-const knexfile = require('../../knexfile');
 
 module.exports = {
     async index(req, res, next) {
@@ -14,7 +13,7 @@ module.exports = {
         try {
             const { nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl, promocao, idRestaurante } = req.body
 
-            precoCalculado = (preco - (preco * (promocao) / 100)).toFixed(2)
+            precoCalculado = (preco - (preco * (promocao || 0) / 100)).toFixed(2)
 
             const [idItem] = await db('item')
                 .insert({
@@ -44,7 +43,7 @@ module.exports = {
             const { nome, preco, descricao, disponivel, tempoPreparo, pratoImgUrl } = req.body
             const { idItem } = req.params
 
-            precoCalculado = (preco - (preco * (promocao) / 100)).toFixed(2)
+            precoCalculado = (preco - (preco * (promocao || 0) / 100)).toFixed(2)
 
             await db('item')
                 .update({
@@ -93,7 +92,7 @@ module.exports = {
 
             const item = await db('item').where({ idItem }).first()
 
-            const precoCalculado = (item.preco - (item.preco * (promocao / 100))).toFixed(2)
+            const precoCalculado = (item.preco - (item.preco * ((promocao || 0) / 100))).toFixed(2)
 
             await db('item').where({ idItem }).update({ promocao, precoCalculado })
 
