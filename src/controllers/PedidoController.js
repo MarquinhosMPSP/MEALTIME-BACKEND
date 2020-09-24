@@ -193,7 +193,7 @@ module.exports = {
                             }
                         })
                         if (nomeRestaurante && idComanda) {
-                            notificationService.notifyOne('novo pedido', idComanda, nomeRestaurante)
+                            notificationService.notifyOne('novo pedido', { idComanda, route: '/home/pedidos' }, nomeRestaurante)
                         }
                     } catch (error) {
                         reject(error)
