@@ -113,7 +113,7 @@ module.exports = {
             if (!dataReserva) dataReserva = new Date()
 
             let duracaoReserva = new Date(dataReserva)
-            duracaoReserva.setUTCHours(duracaoReserva.getUTCHours() + 2)
+            duracaoReserva.setUTCHours(duracaoReserva.getUTCHours() - 2)
 
             const mesas = await db('mesa')
                 .where('mesa.quantidadeLugares', qtdPessoas)
@@ -121,7 +121,8 @@ module.exports = {
 
             const mesasReservadas = await db('reserva')
                 .where('reserva.idRestaurante', idRestaurante)
-                .whereBetween('reserva.dataReserva', [dataReserva, duracaoReserva.toISOString()])
+                .whereNotIn('reserva.status', ['finalizada', 'cancelada'])
+                .whereBetween('reserva.dataReserva', [duracaoReserva.toISOString(), dataReserva])
                 .select('reserva.idMesa')
 
             // const mesasReservadas = await db('mesa')
