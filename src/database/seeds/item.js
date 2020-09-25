@@ -11,7 +11,9 @@ exports.seed = function(knex) {
           descricao:"Feijão preto, carne, linguiça, bacon e costela",
           disponivel: true,
           tempoPreparo: 30,
-          pratoImgUrl: "src/img/feijoada"
+          pratoImgUrl: "src/img/feijoada",
+          promocao: 0,
+          precoCalculado: 27.99
         },
         {
           nome: "Brasileiro",
@@ -19,7 +21,9 @@ exports.seed = function(knex) {
           descricao: "Arroz, feijão, frango grelhado e salada",
           disponivel: true,
           tempoPreparo: 15,
-          pratoImgUrl:"src/img/brasileiro"
+          pratoImgUrl:"src/img/brasileiro",
+          promocao: 0,
+          precoCalculado: 20.50
         }
       ]);
     });
