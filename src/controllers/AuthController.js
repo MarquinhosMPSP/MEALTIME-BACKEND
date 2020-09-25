@@ -10,14 +10,14 @@ module.exports = {
                 const usuario = await db('usuario')
                     .where({ login, senha })
                     .leftJoin('restaurante', 'usuario.idRestaurante', 'restaurante.idRestaurante')
-                    .select('usuario.idUsuario', 'usuario.nome', 'restaurante.idRestaurante', 'restaurante.nomeRestaurante')
+                    .select('usuario.idUsuario', 'usuario.nome', 'usuario.idPerfil', 'restaurante.idRestaurante', 'restaurante.nomeRestaurante')
                     .first()
 
                 if (usuario && !usuario.idRestaurante && plataforma === 'web') {
                     return res.status(500).json({ message: 'você não possui acesso a plataforma web com essa conta!' })
                 }
 
-                if (usuario && usuario.idRestaurante && plataforma === 'app') {
+                if (usuario && usuario.idPerfil !== 3 && plataforma === 'app') {
                     return res.status(500).json({ message: 'você não possui acesso ao app com essa conta!' })
                 }
 

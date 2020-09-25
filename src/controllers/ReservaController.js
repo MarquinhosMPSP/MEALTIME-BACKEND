@@ -110,6 +110,8 @@ module.exports = {
             const { idRestaurante } = req.params
             const { dataReserva, qtdPessoas } = req.query
 
+            if (!dataReserva) dataReserva = new Date()
+
             const mesas = await db('mesa')
                 .where('mesa.quantidadeLugares', qtdPessoas)
                 .where('mesa.idRestaurante', idRestaurante)
