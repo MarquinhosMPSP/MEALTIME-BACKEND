@@ -17,8 +17,10 @@ module.exports = {
                     return res.status(500).json({ message: 'você não possui acesso a plataforma web com essa conta!' })
                 }
 
-                if (usuario && usuario.idPerfil !== 3 && plataforma === 'app') {
-                    return res.status(500).json({ message: 'você não possui acesso ao app com essa conta!' })
+                if (usuario && plataforma === 'app') {
+                    if ((usuario.idRestaurante && usuario.idPerfil !== 3) || (!usuario.idRestaurante && usuario.idPerfil !== 1)) {
+                        return res.status(500).json({ message: 'você não possui acesso ao app com essa conta!' })
+                    }
                 }
 
                 if (usuario) {
