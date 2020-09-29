@@ -125,15 +125,6 @@ module.exports = {
                 .whereBetween('reserva.dataReserva', [duracaoReserva.toISOString(), dataReserva])
                 .select('reserva.idMesa')
 
-            // const mesasReservadas = await db('mesa')
-            //     .where('mesa.quantidadeLugares', qtdPessoas)
-            //     .where('mesa.idRestaurante', idRestaurante)
-            //     .join('reserva', 'reserva.idMesa', 'mesa.idMesa')
-            //     .whereNotIn('reserva.status', ['finalizada', 'cancelada'])
-            //     .whereRaw('??::timestamp = ?', ['dataReserva', dataReserva])
-            //     // .whereBetween('reserva.dataReserva', [dataReserva, duracaoReserva.toISOString()])
-            //     .select('mesa.idMesa', 'reserva.idReserva', 'mesa.quantidadeLugares', 'mesa.disponivel', 'reserva.dataReserva', 'reserva.status')
-
             const idsReservadas = mesasReservadas.map(r => r.idMesa)
             const mesasDisponiveis = mesas.filter(m => !idsReservadas.includes(m.idMesa))
 
@@ -176,6 +167,26 @@ module.exports = {
             
 
             return res.json(reservas)
+
+        } catch (error) {
+            return next(error)
+        }
+    },
+    async getOrderPadAndTableByRestaurant(req, res, next) {
+        try {
+            const { idRestaurante } = req.params
+
+            const dataReservaInicio = util.getFirstMinute(new Date())
+            const dataReservaFim = util.getLastMinute(new Date())
+
+            const comandasEMesas = await db('reserva')
+                .where('reserva.idRestaurante', idRestaurante)
+                .whereBetween('reserva.dataReserva', [dataReservaInicio, dataReservaFim])
+                .join('mesa', 'mesa.idMesa', 'reserva.idMesa')
+                .join('comanda', 'comanda.idComanda', 'reserva.idComanda')
+                .select(['comanda.*', 'mesa.*'])
+
+            return res.json(comandasEMesas)
 
         } catch (error) {
             return next(error)

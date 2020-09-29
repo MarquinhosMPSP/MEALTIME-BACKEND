@@ -48,6 +48,7 @@ routes
     .get('/reservas/:idRestaurante/disponibilidade', ReservaController.availability)
     .get('/reservas/cliente/:idCliente', ReservaController.getAllBookingsByUser)
     .get('/reservas/pedidos/:idRestaurante', ReservaController.getAllBookingsByRestaurant)
+    .get('/reservas/mesas-comandas/:idRestaurante', ReservaController.getOrderPadAndTableByRestaurant)
     .post('/reservas', validateToken, ReservaController.create)
     .put('/reservas/:idReserva', validateToken, ReservaController.update)
     .delete('/reservas/:idReserva', validateToken, ReservaController.delete)

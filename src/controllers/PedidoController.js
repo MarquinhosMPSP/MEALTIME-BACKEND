@@ -148,7 +148,7 @@ module.exports = {
                     .whereIn('idComanda', idsComanda)
                     .join('item', 'pedido.idItem', 'item.idItem')
                     .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'pedido.dataPedido', 'item.*')
-                    .whereNot('pedido.status', 'finalizado')
+                    // .whereNot('pedido.status', 'finalizado')
                     .orderBy([{column: 'pedido.idComanda', order: 'desc'}, {column: 'pedido.idPedido', order: 'desc'}])
 
                 idsComanda.forEach(comanda => {
