@@ -22,7 +22,7 @@ module.exports = {
                 idRestaurante, idCliente, idMesa, idComanda, status, pagamentoApp, dataReserva
             }).returning('idReserva')
 
-            const [{ nome, login, nomeRestaurante, nomeMesa }] = await db('reserva')
+            const [{ nome, nomeRestaurante, nomeMesa }] = await db('reserva')
                 .where('reserva.idReserva', idReserva)
                 .join('usuario', 'reserva.idCliente', 'usuario.idUsuario')
                 .join('restaurante', 'reserva.idRestaurante', 'restaurante.idRestaurante')

@@ -150,11 +150,17 @@ module.exports = {
                     .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'pedido.dataPedido', 'item.*')
                     // .whereNot('pedido.status', 'finalizado')
                     .orderBy([{column: 'pedido.idComanda', order: 'desc'}, {column: 'pedido.idPedido', order: 'desc'}])
+                
+                const reservas = await db('reserva')
+                    .whereIn('idComanda', idsComanda)
+                    .select('*')
 
                 idsComanda.forEach(comanda => {
                     const pedidosComanda = pedidos.filter(p => p.idComanda === comanda)
+                    const reserva = reservas.find(r => r.idComanda === comanda)
                     if (pedidosComanda && pedidosComanda.length > 0) {
                         const item = {
+                            idMesa: reserva?.idMesa,
                             idComanda: comanda,
                             pedidos: pedidosComanda,
                             valorTotal: calculateTotalValue(pedidosComanda, 'precoCalculado')
