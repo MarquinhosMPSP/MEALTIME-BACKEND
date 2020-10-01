@@ -96,7 +96,7 @@ module.exports = {
                 }
                 let sql = db('reserva')
                     .where(query)
-                    .where('reserva.idRestaurante', req.data?.idRestaurante)
+                    .where('reserva.idRestaurante', req.data && req.data.idRestaurante)
                     .leftJoin('usuario', 'usuario.idUsuario', 'reserva.idCliente')
                     .select('reserva.*', 'usuario.nome')
                 if (dataReservaInicio) {
