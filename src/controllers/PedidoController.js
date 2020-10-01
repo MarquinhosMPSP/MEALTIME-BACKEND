@@ -154,6 +154,7 @@ module.exports = {
                 const reservas = await db('reserva')
                     .whereIn('idComanda', idsComanda)
                     .join('mesa', 'mesa.idMesa', 'reserva.idMesa')
+                    .join('usuario', 'usuario.idUsuario', 'reserva.idCliente')
                     .select('*')
 
                 idsComanda.forEach(async(comanda) => {

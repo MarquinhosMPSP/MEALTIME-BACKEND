@@ -90,15 +90,16 @@ module.exports = {
             let dataReservaFim = null
 
             if (Object.keys(query).length > 0) {
-                delete query.dataReserva
                 if ('dataReserva' in query) {
                     dataReservaInicio = query.dataReserva
+                    delete query.dataReserva
                 }
                 let sql = db('reserva')
                     .where(query)
                     .where('reserva.idRestaurante', req.data && req.data.idRestaurante)
                     .leftJoin('usuario', 'usuario.idUsuario', 'reserva.idCliente')
-                    .select('reserva.*', 'usuario.nome')
+                    .leftJoin('mesa', 'mesa.idMesa', 'reserva.idMesa')
+                    .select('reserva.*', 'usuario.nome', 'usuario.idPerfil', 'mesa.nomeMesa')
                 if (dataReservaInicio) {
                     dataReservaFim = util.getLastMinute(dataReservaInicio)
                     sql.whereBetween('dataReserva', [dataReservaInicio, dataReservaFim])
