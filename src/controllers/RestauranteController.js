@@ -35,6 +35,7 @@ module.exports = {
             .insert({
                 nomeRestaurante, descricao, categoria, cnpj, endereco, numero, bairro, cep, cidade, estado, aberto
             })
+            .returning('*')
 
             const idPerfil = 2
             const idRestaurante = restaurante.idRestaurante

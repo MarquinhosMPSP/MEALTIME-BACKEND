@@ -44,7 +44,7 @@ routes
     .delete('/restaurantes/:idRestaurante', validateToken, RestauranteController.delete)
     // Reservas
     .get('/reservas', ReservaController.index)
-    .get('/reservas/filtro', ReservaController.listByFilter)
+    .get('/reservas/filtro', validateToken, ReservaController.listByFilter)
     .get('/reservas/:idRestaurante/disponibilidade', ReservaController.availability)
     .get('/reservas/cliente/:idCliente', ReservaController.getAllBookingsByUser)
     .get('/reservas/pedidos/:idRestaurante', ReservaController.getAllBookingsByRestaurant)

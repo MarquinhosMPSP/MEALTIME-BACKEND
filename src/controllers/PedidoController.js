@@ -159,7 +159,7 @@ module.exports = {
                 idsComanda.forEach(async(comanda) => {
                     const pedidosComanda = pedidos.filter(p => p.idComanda === comanda)
                     const reserva = reservas.find(r => r.idComanda === comanda)
-                    if (pedidosComanda && pedidosComanda.length > 0) {
+                    if (reserva) {
                         const item = {
                             reserva,
                             idComanda: comanda,
