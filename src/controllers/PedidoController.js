@@ -155,6 +155,7 @@ module.exports = {
                     .whereIn('idComanda', idsComanda)
                     .join('mesa', 'mesa.idMesa', 'reserva.idMesa')
                     .join('usuario', 'usuario.idUsuario', 'reserva.idCliente')
+                    .whereNot('status', 'finalizada')
                     .select('*')
 
                 idsComanda.forEach(async(comanda) => {
