@@ -13,9 +13,11 @@ module.exports = {
     },
     async create(req, res, next) {
         try {
-            const { idRestaurante, idCliente, idMesa, status, pagamentoApp, dataReserva } = req.body
+            let { idRestaurante, idCliente, idMesa, status, pagamentoApp, dataReserva } = req.body
 
             const [ idComanda ] = await db('comanda').insert({ idRestaurante }).returning('idComanda')
+
+            if (req.data.idPerfil === 3) status = 'ativa'
 
             const [ idReserva ] = await db('reserva')
             .insert({
@@ -189,6 +191,7 @@ module.exports = {
             const comandasEMesas = await db('reserva')
                 .where('reserva.idRestaurante', idRestaurante)
                 .whereBetween('reserva.dataReserva', [dataReservaInicio, dataReservaFim])
+                .where('status', 'ativa')
                 .join('mesa', 'mesa.idMesa', 'reserva.idMesa')
                 .join('comanda', 'comanda.idComanda', 'reserva.idComanda')
                 .select(['comanda.*', 'mesa.*'])

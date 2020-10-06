@@ -3,7 +3,8 @@ const db = require('../database');
 module.exports = {
     async index(req, res, next) {
         try {
-            const results = await db('item')
+            const {idRestaurante} = req.data 
+            const results = await db('item').where({idRestaurante})
             return res.json(results)
         } catch (error) {
             return next(error)

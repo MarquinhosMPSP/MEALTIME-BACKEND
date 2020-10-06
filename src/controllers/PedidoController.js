@@ -13,10 +13,10 @@ module.exports = {
     },
     async create(req, res, next) {
         try {
-            const { idComanda, idItem, status } = req.body
+            const { idComanda, idItem, status, observacoes } = req.body
 
             await db('pedido').insert({
-                idComanda, idItem, status
+                idComanda, idItem, status, observacoes
             })
 
             return res.status(201).send()
@@ -26,11 +26,11 @@ module.exports = {
     },
     async update(req, res, next) {
         try {
-            const { idComanda, idItem, status } = req.body
+            const { idComanda, idItem, status, observacoes } = req.body
             const { idPedido } = req.params
             
             const pedido = await db('pedido')
-            .update({ idComanda, idItem, status })
+            .update({ idComanda, idItem, status, observacoes })
             .where({ idPedido })
             .returning('*')
 
@@ -77,7 +77,7 @@ module.exports = {
                     .where({ idComanda })
                     .join('item', 'pedido.idItem', 'item.idItem')
                     .orderBy(filters)
-                    .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'pedido.dataPedido', 'item.*') // adicionar data de atualizacao do pedido
+                    .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'pedido.dataPedido', 'pedido.observacoes', 'item.*') // adicionar data de atualizacao do pedido
 
                 resultado.valorTotal = calculateTotalValue(resultado.pedidos, 'preco')
 
@@ -87,7 +87,7 @@ module.exports = {
             resultado.pedidos = await db('pedido')
                 .where({ idComanda })
                 .join('item', 'pedido.idItem', 'item.idItem')
-                .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'pedido.dataPedido', 'item.*')
+                .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'pedido.dataPedido', 'pedido.observacoes', 'item.*')
 
             resultado.valorTotal = calculateTotalValue(resultado.pedidos, 'precoCalculado')
 
@@ -114,7 +114,7 @@ module.exports = {
                     .where('comanda.idRestaurante', idRestaurante)
                     .where('comanda.idCliente', idUsuario)
                     .orderBy(filters)
-                    .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'item.*')
+                    .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'pedido.observacoes', 'item.*')
 
                 resultado.valorTotal = calculateTotalValue(resultado.pedidos, 'preco')
                 return res.json(resultado)
@@ -123,7 +123,7 @@ module.exports = {
             resultado.pedidos = await db('pedido')
                 .where({ idUsuario })
                 .join('item', 'pedido.idItem', 'item.idItem')
-                .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'pedido.dataPedido', 'item.*')
+                .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'pedido.dataPedido', 'pedido.observacoes', 'item.*')
 
             resultado.valorTotal = calculateTotalValue(resultado.pedidos, 'preco')
             return res.json(resultado)
@@ -147,7 +147,7 @@ module.exports = {
                 const pedidos = await db('pedido')
                     .whereIn('idComanda', idsComanda)
                     .join('item', 'pedido.idItem', 'item.idItem')
-                    .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'pedido.dataPedido', 'item.*')
+                    .select('pedido.idPedido', 'pedido.idComanda', 'pedido.status', 'pedido.dataPedido', 'pedido.observacoes', 'item.*')
                     // .whereNot('pedido.status', 'finalizado')
                     .orderBy([{column: 'pedido.idComanda', order: 'desc'}, {column: 'pedido.idPedido', order: 'desc'}])
                 
@@ -191,11 +191,12 @@ module.exports = {
                     try {
                         pedidos.forEach(async (pedido) => {
                             const idItem = pedido.idItem
+                            const observacoes = pedido.observacoes
                             if (idItem) {
                                 const qtdItens = pedido.qtd ? pedido.qtd : 1
                                 for (let index = 0; index < qtdItens; index++) {
                                     await db('pedido').insert({
-                                        idComanda, idItem, dataPedido
+                                        idComanda, idItem, dataPedido, observacoes
                                     })
                                 }
                                 resolve("Pedido(s) criado(s) com sucesso")

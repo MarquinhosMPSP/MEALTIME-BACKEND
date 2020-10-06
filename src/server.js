@@ -1,5 +1,6 @@
 // environment vars
 require('dotenv').config()
+require('./crons/updateReservation')
 
 // external libs
 const express = require('express')
@@ -15,6 +16,7 @@ app.use(cors());
 
 app.use(express.json())
 app.use(routes)
+
 
 // middlewares
 app.use(require('./middlewares/headers'))

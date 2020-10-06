@@ -22,7 +22,7 @@ routes
     .put('/usuarios/:idUsuario', UsuarioController.update)
     .delete('/usuarios/:idUsuario', validateToken, UsuarioController.delete)
     // Itens
-    .get('/itens', ItemController.index)
+    .get('/itens', validateToken, ItemController.index)
     .get('/itens/filtro', ItemController.listByFilter)
     .post('/itens', validateToken, ItemController.create)
     .put('/itens/:idItem', validateToken, ItemController.update)

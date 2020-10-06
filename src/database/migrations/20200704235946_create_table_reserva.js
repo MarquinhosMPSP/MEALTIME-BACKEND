@@ -20,7 +20,7 @@ exports.up = async knex => knex.schema.createTable('reserva', table => {
         .notNullable() // TODO: pode ser nulo em um primeiro momento (reserva criada e n confirmada)
         .onDelete('CASCADE')
 
-    table.enum('status', ['criada', 'aceita', 'finalizada', 'cancelada']).notNullable().defaultTo('criada')
+    table.enum('status', ['criada', 'aceita', 'ativa', 'finalizada', 'cancelada']).notNullable().defaultTo('criada')
     table.boolean('pagamentoApp').defaultTo(true)
         
     table.timestamp('dataReserva').defaultTo(knex.fn.now())
