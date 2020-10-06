@@ -24,6 +24,7 @@ routes
     // Itens
     .get('/itens', validateToken, ItemController.index)
     .get('/itens/filtro', ItemController.listByFilter)
+    .get('/itens/cardapio', validateToken, ItemController.listItemsByMenu)
     .post('/itens', validateToken, ItemController.create)
     .put('/itens/:idItem', validateToken, ItemController.update)
     .patch('/itens/promocao', validateToken, ItemController.setPromotion)

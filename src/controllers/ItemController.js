@@ -3,8 +3,7 @@ const db = require('../database');
 module.exports = {
     async index(req, res, next) {
         try {
-            const {idRestaurante} = req.data || {idRestaurante: null}
-            const results = await db('item').where({idRestaurante})
+            const results = await db('item')
             return res.json(results)
         } catch (error) {
             return next(error)
@@ -101,5 +100,16 @@ module.exports = {
         } catch (error) {
             return next(error)
         }
-    }
+    },
+    async listItemsByMenu(req, res, next) {
+        try {
+            const {idRestaurante} = req.data || {idRestaurante: null}
+            const results = await db('cardapio')
+                .join('item', 'item.idItem', 'cardapio.idItem')
+                .where({idRestaurante})
+            return res.json(results)
+        } catch (error) {
+            return next(error)
+        }
+    },
 }
