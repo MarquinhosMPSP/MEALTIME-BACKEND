@@ -18,6 +18,7 @@ routes
     .post('/login', AuthController.login)
     // Usuarios
     .get('/usuarios', UsuarioController.index)
+    .get('/usuarios/todos', UsuarioController.listAll)
     .post('/usuarios', UsuarioController.create)
     .put('/usuarios/:idUsuario', UsuarioController.update)
     .delete('/usuarios/:idUsuario', validateToken, UsuarioController.delete)
@@ -50,6 +51,7 @@ routes
     .get('/reservas/cliente/:idCliente', ReservaController.getAllBookingsByUser)
     .get('/reservas/pedidos/:idRestaurante', ReservaController.getAllBookingsByRestaurant)
     .get('/reservas/mesas-comandas/:idRestaurante', ReservaController.getOrderPadAndTableByRestaurant)
+    .get('/reservas/fidelizacao', validateToken, ReservaController.getFidelizationData)
     .post('/reservas', validateToken, ReservaController.create)
     .put('/reservas/:idReserva', validateToken, ReservaController.update)
     .delete('/reservas/:idReserva', validateToken, ReservaController.delete)

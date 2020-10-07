@@ -201,5 +201,21 @@ module.exports = {
         } catch (error) {
             return next(error)
         }
-    }
+    },
+    async getFidelizationData(req, res, next) {
+        try {
+            const {idRestaurante} = req.data || req.body
+            const response = await db('reserva')
+                .where('reserva.status', 'finalizada')
+                .where('reserva.idRestaurante', idRestaurante)
+                .join('usuario', 'usuario.idUsuario', 'reserva.idCliente')
+                .where('usuario.idPerfil', 1)
+                .groupBy(['reserva.idCliente', 'usuario.nome'])
+                .count('reserva.idCliente')
+                .select(['reserva.idCliente', 'usuario.nome'])
+            return res.json(response)
+        } catch (error) {
+            return next(error)
+        }
+    },
 }
