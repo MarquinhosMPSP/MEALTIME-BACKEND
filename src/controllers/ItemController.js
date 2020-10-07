@@ -23,12 +23,12 @@ module.exports = {
 
             if (!idItem) return res.status(500).json({ data: 'Não foi possivel criar o item.' })
 
-            const { idCardapio } = await db('cardapio')
+            const cardapio = await db('cardapio')
                 .where({ idRestaurante })
                 .select('idCardapio')
                 .first('idCardapio')
 
-            if (!idCardapio) return res.status(500).json({ data: 'Não existe um cárdapio para associar o item.' })
+            if (!cardapio && !cardapio.idCardapio) return res.status(500).json({ data: 'Não existe um cárdapio para associar o item.' })
 
             await db('cardapio')
                 .insert({ idCardapio, idRestaurante, idItem })

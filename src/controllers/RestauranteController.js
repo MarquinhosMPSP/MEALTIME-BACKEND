@@ -38,12 +38,14 @@ module.exports = {
             .returning('*')
 
             const idPerfil = 2
-            const idRestaurante = restaurante[0].idRestaurante
+            const idRestaurante = restaurante && restaurante.length > 0 ? restaurante[0].idRestaurante : null
 
-            await db('usuario')
-            .insert({
-                nome, login, senha, idPerfil, idRestaurante
-            })
+            if (idRestaurante) {
+                await db('usuario')
+                .insert({
+                    nome, login, senha, idPerfil, idRestaurante
+                })
+            }
 
             return res.status(201).send()
         } catch (error) {
