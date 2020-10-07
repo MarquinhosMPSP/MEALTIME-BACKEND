@@ -38,7 +38,7 @@ module.exports = {
             .returning('*')
 
             const idPerfil = 2
-            const idRestaurante = restaurante.idRestaurante
+            const idRestaurante = restaurante[0].idRestaurante
 
             await db('usuario')
             .insert({
