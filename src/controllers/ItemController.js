@@ -28,10 +28,10 @@ module.exports = {
                 .select('idCardapio')
                 .first('idCardapio')
 
-            if (!cardapio && !cardapio.idCardapio) return res.status(500).json({ data: 'Não existe um cárdapio para associar o item.' })
+            if (cardapio && !cardapio.idCardapio) return res.status(500).json({ data: 'Não existe um cárdapio para associar o item.' })
 
             await db('cardapio')
-                .insert({ idCardapio, idRestaurante, idItem })
+                .insert({ idCardapio: cardapio.idCardapio, idRestaurante, idItem })
 
             return res.status(201).send()
         } catch (error) {
