@@ -28,6 +28,8 @@ module.exports = {
                 .select('idCardapio')
                 .first('idCardapio')
 
+            console.log(cardapio);
+
             if (cardapio && !cardapio.idCardapio) return res.status(500).json({ data: 'Não existe um cárdapio para associar o item.' })
 
             await db('cardapio')
