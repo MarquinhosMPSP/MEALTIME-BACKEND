@@ -148,7 +148,7 @@ module.exports = {
 
             const reservasAbertas = await db('reserva')
                 .where({ idCliente })
-                .whereIn('status', ['criada', 'aceita'])
+                .whereIn('status', ['criada', 'aceita', 'ativa'])
                 .join('mesa', 'mesa.idMesa', 'reserva.idMesa')
                 .join('restaurante', 'restaurante.idRestaurante', 'reserva.idRestaurante')
 
