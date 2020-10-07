@@ -28,20 +28,8 @@ module.exports = {
                 .select('idCardapio')
                 .first('idCardapio')
 
-            // if (!cardapio || !cardapio.idCardapio) return res.status(500).json({ data: 'Não existe um cárdapio para associar o item.' })
-
-            if (!cardapio || !cardapio.idCardapio) {
-                const result = await db('cardapio')
-                    .insert({ idCardapio: 1, idItem, idRestaurante })
-                    .where({ idRestaurante })
-                    .returning('*')
-                cardapio = result && result.length > 0 ? result[0] : null
-            }
-
-            if (cardapio) {
-                await db('cardapio')
-                    .insert({ idCardapio: cardapio.idCardapio, idRestaurante, idItem })
-            }
+            await db('cardapio')
+                .insert({ idCardapio: (cardapio ? cardapio.idCardapio : 1), idRestaurante, idItem })
 
             return res.status(201).send()
         } catch (error) {
