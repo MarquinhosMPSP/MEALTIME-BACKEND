@@ -17,7 +17,7 @@ routes
     // Autenticação
     .post('/login', AuthController.login)
     // Usuarios
-    .get('/usuarios', UsuarioController.index)
+    .get('/usuarios', validateToken, UsuarioController.index)
     .get('/usuarios/todos', UsuarioController.listAll)
     .post('/usuarios', UsuarioController.create)
     .put('/usuarios/:idUsuario', UsuarioController.update)
