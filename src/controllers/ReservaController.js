@@ -211,8 +211,9 @@ module.exports = {
                 .join('usuario', 'usuario.idUsuario', 'reserva.idCliente')
                 .where('usuario.idPerfil', 1)
                 .groupBy(['reserva.idCliente', 'usuario.nome'])
-                .count('reserva.idCliente')
+                .count('reserva.idCliente as quantidade')
                 .select(['reserva.idCliente', 'usuario.nome'])
+                .orderBy('quantidade')
             return res.json(response)
         } catch (error) {
             return next(error)
