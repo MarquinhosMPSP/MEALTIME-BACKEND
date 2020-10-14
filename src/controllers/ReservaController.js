@@ -213,7 +213,7 @@ module.exports = {
                 .groupBy(['reserva.idCliente', 'usuario.nome'])
                 .count('reserva.idCliente')
                 .select(['reserva.idCliente', 'usuario.nome'])
-                .orderBy('count')
+                .orderBy('count', 'desc')
             return res.json(response)
         } catch (error) {
             return next(error)
